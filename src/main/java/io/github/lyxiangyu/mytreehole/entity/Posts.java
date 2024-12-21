@@ -5,10 +5,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class Comments {
-    private Integer commentId;
+public class Posts {
     private Integer postId;
     private Integer userId;
     private String content;
-    private LocalDateTime commentDate;
+    private LocalDateTime postDate;
 }
