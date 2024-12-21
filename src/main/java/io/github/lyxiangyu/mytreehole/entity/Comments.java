@@ -10,5 +10,5 @@ public class Comments {
     private Integer postId;
     private Integer userId;
     private String content;
-    private LocalDateTime commentTime;
+    private LocalDateTime commentData;
 }
