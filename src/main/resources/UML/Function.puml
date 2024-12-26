@@ -1,0 +1,27 @@
+@startuml
+
+!define RECTANGLE_COLOR LightGreen
+
+rectangle "树洞系统功能模块图" as TreeHoleModules #RECTANGLE_COLOR {
+  rectangle "用户模块" as UserModule {
+    rectangle "用户注册" as UserRegistration
+    rectangle "用户登录" as UserLogin
+    rectangle "用户信息管理" as UserManagement
+  }
+
+  rectangle "内容管理模块" as ContentModule {
+    rectangle "帖子发布" as PostPublishing
+    rectangle "评论管理" as CommentManagement
+    rectangle "帖子浏览" as PostBrowsing
+  }
+
+  rectangle "管理员模块" as AdminModule {
+    rectangle "帖子删除" as PostDeletion
+    rectangle "用户管理" as UserAdminManagement
+  }
+}
+
+UserModule --> ContentModule : "内容交互"
+ContentModule --> AdminModule : "管理交互"
+
+@enduml

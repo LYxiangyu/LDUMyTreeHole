@@ -1,0 +1,68 @@
+@startuml
+
+!define RECTANGLE_COLOR LightSkyBlue
+!define ACTOR_COLOR LightCoral
+
+actor User as "用户" #ACTOR_COLOR
+actor Admin as "管理员" #ACTOR_COLOR
+actor Visitor as "访客" #ACTOR_COLOR
+
+rectangle "树洞系统" as TreeHoleSystem #RECTANGLE_COLOR {
+  usecase "浏览帖子" as UC_Browse
+  usecase "发布帖子" as UC_Post
+  usecase "评论帖子" as UC_Comment
+  usecase "删除帖子" as UC_DeletePost
+  usecase "管理用户" as UC_ManageUsers
+  usecase "查看帖子详情" as UC_ViewDetails
+}
+
+Visitor -- UC_Browse
+Visitor -- UC_ViewDetails
+User -- UC_Browse
+User -- UC_ViewDetails
+User -- UC_Post
+User -- UC_Comment
+
+Admin -- UC_DeletePost
+Admin -- UC_ManageUsers
+
+
+@enduml
+
+@startuml
+
+!define RECTANGLE_COLOR LightSkyBlue
+!define ACTOR_COLOR LightCoral
+
+actor User as "用户" #ACTOR_COLOR
+
+rectangle "用户功能用例图" as UserFunctions #RECTANGLE_COLOR {
+  usecase "浏览帖子" as UC_Browse_User
+  usecase "发布帖子" as UC_Post_User
+  usecase "评论帖子" as UC_Comment_User
+  usecase "查看帖子详情" as UC_ViewDetails_User
+}
+
+User -- UC_Browse_User
+User -- UC_Post_User
+User -- UC_Comment_User
+User -- UC_ViewDetails_User
+
+@enduml
+
+@startuml
+
+!define RECTANGLE_COLOR LightSkyBlue
+!define ACTOR_COLOR LightCoral
+
+actor Admin as "管理员" #ACTOR_COLOR
+
+rectangle "管理员功能用例图" as AdminFunctions #RECTANGLE_COLOR {
+  usecase "删除帖子" as UC_DeletePost_Admin
+  usecase "管理用户" as UC_ManageUsers_Admin
+}
+
+Admin -- UC_DeletePost_Admin
+Admin -- UC_ManageUsers_Admin
+
+@enduml
