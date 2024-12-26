@@ -9,7 +9,7 @@
 </head>
 <body class="h-screen flex items-center justify-center relative">
 <div class="card w-96 shadow-xl">
-    <div class="card-body items-center text-center">
+    <form th:action="@{/users/login}" method="post" class="card-body items-center text-center">
         <h2 class="card-title">登录</h2>
         <label class="input input-bordered flex items-center gap-2">
             账号
@@ -19,8 +19,8 @@
             密码
             <input type="password" class="grow" />
         </label>
-        <button class="btn">登录</button>
-    </div>
+        <button type="submit" class="btn">登录</button>
+    </form>
 </div>
 <div class="absolute bottom-5 right-5">
     <div class="card w-auto shadow-xl p-4 flex items-center">
@@ -57,7 +57,7 @@
         </div>
     </div>
 </div>
-<dialog id="my_modal_1" class="modal">
+<dialog id="my_modal_1" class="modal" th:classappend="${error} ? 'modal-open' : ''">
     <div class="modal-box">
         <h3 class="text-lg font-bold">Hello!</h3>
         <p class="py-4">登录失败，账号或者密码错误</p>
@@ -69,5 +69,21 @@
         </div>
     </div>
 </dialog>
+<script>
+    // 模态框控制逻辑
+    function showModal() {
+        document.getElementById("my_modal_1").showModal();
+    }
+
+    function closeModal() {
+        document.getElementById("my_modal_1").close();
+    }
+
+    // 如果后台传递了错误信息，自动打开模态框
+    const hasError = /*[[${error}]]*/ false;
+    if (hasError) {
+        showModal();
+    }
+</script>
 </body>
 </html>
