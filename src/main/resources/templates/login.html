@@ -5,32 +5,72 @@
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.22/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="./css/login.css" rel="stylesheet">
+    <link rel="stylesheet" herf="../static/css/login.css">
 </head>
 <body class="h-screen flex items-center justify-center relative">
 
 <!-- 登录卡片 -->
-<div class="card w-96 shadow-xl">
-    <div class="card-body items-center text-center">
-        <h2 class="card-title">登录</h2>
-        <!-- 登录表单 -->
-        <form action="/users/login" method="post">
-            <label class="input input-bordered flex items-center gap-2">
-                用户
-                <input type="text" name="nickName" class="grow" placeholder="请输入你的用户名" required />
-            </label>
-            <label class="input input-bordered flex items-center gap-2">
-                密码
-                <input type="password" name="passwordHash" class="grow" required />
-            </label>
-            <button type="submit" class="btn">登录</button>
-        </form>
+
+<div class="hero min-h-screen bg-cover bg-center" th:style="'background-image: url(/pictures/login.jpg)'">
+    <div class="hero-content flex-col lg:flex-row-reverse">
+        <div class="text-center lg:text-left">
+            <h1 class="text-5xl font-bold">欢迎回来!</h1>
+            <p class="py-6">
+                海内存知己，天涯若比邻
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;--王勃
+                &nbsp;《送杜少府之任蜀州》
+            </p>
+        </div>
+        <div class="card glass w-full max-w-sm shrink-0 shadow-2xl">
+            <form class="card-body" action="/users/login" method="POST">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">用户名</span>
+                    </label>
+                    <input type="text" name="nickName" class="input input-bordered" placeholder="请输入你的用户名" required />
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Password</span>
+                    </label>
+                    <input type="password" name="passwordHash" class="input input-bordered" required />
+                    <label class="label">
+                        <a href="#" class="label-text-alt link link-hover">忘记密码?</a>
+                    </label>
+                </div>
+                <div class="form-control mt-6">
+                    <button type="submit" class="btn btn-primary">登录</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
+<!--<div class="card w-96 shadow-xl h-96">-->
+<!--    <div class="card-body items-center text-center">-->
+<!--        <h2 class="card-title mb-4">登录</h2>-->
+<!--        &lt;!&ndash; 登录表单 &ndash;&gt;-->
+<!--        <form action="/users/login" method="post">-->
+<!--            <label class="input input-bordered flex items-center gap-2 lay mb-4 ">-->
+<!--                用户-->
+<!--                <input type="text" name="nickName" class="grow" placeholder="请输入你的用户名" required />-->
+<!--            </label>-->
+<!--            <label class="input input-bordered mb-4 flex items-center gap-2 lay">-->
+<!--                密码-->
+<!--                <input type="password" name="passwordHash" class="grow" required />-->
+<!--            </label>-->
+<!--            <button type="submit" class="btn lay">登录</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+
+
 <!-- 主题切换 -->
-<div class="absolute bottom-5 right-5">
-    <div class="card w-auto shadow-xl p-4 flex items-center">
+<div class="absolute bottom-5  right-5">
+    <div class="card w-auto shadow-xl p-3 flex items-center">
         <div class="card-body">
             <label class="flex cursor-pointer gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -48,7 +88,7 @@
 
 <!-- 登录失败弹窗 -->
 <dialog id="my_modal_1" class="modal" th:if="${error}">
-    <div class="modal-box">
+    <div class="modal-box backdrop-blur-md bg-white/10 ">
         <h3 class="text-lg font-bold">ERROR!</h3>
         <p class="py-4" th:text="${error}">登录失败，账号或者密码错误</p>
         <div class="modal-action">
