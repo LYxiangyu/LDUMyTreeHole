@@ -40,4 +40,10 @@ public class UsersServiceImpl implements UsersService {
     public void updateUserPassword(int id, String passwordHash) {
         usersDao.updateUserPassword(id, passwordHash);
     }
-}
+
+    @Override
+    public Boolean validateUser(String nickName, String passwordHash){
+        Users users = usersDao.getUserByUsernameAndPassword(nickName, passwordHash);
+        return users != null;
+    }
+};

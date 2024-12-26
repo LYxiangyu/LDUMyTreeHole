@@ -10,4 +10,6 @@ public interface UsersDao {
     List<Users> getAllUserById();
     void updateUserInformation(int id, String nickName, String email);
     void updateUserPassword(int id, String passwordHash);
+
+    Users getUserByUsernameAndPassword(String nickName, String passwordHash);
 }

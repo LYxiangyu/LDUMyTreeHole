@@ -15,4 +15,6 @@ public interface UsersService {
     void updateUserInformation(int id, String nickName, String email);
 
     void updateUserPassword(int id, String passwordHash);
+
+    Boolean validateUser(String nickName, String passwordHash);
 }
