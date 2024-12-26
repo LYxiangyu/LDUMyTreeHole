@@ -2,6 +2,7 @@ package io.github.lyxiangyu.mytreehole.dao;
 
 import io.github.lyxiangyu.mytreehole.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -52,6 +53,11 @@ public class UsersDaoImpl implements UsersDao {
     @Override
     public Users  getUserByUsernameAndPassword(String nickName, String passwordHash){
         String sql = "select * from users where Nickname = ? and PasswordHash = ?";
-        return jdbcTemplate.queryForObject(sql,usersRowMapper,nickName,passwordHash);
+        try {
+            return jdbcTemplate.queryForObject(sql, usersRowMapper, nickName, passwordHash);
+        } catch (EmptyResultDataAccessException e) {
+            // 查询没有找到结果，返回 null
+            return null;
+        }
     };
 }

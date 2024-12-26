@@ -21,7 +21,7 @@ public class UsersController {
     // 显示登录页面
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login"; // 返回 login.html 页面
+        return "/login"; // 返回 login.html 页面
     }
 
     // 登录请求处理
@@ -32,7 +32,7 @@ public class UsersController {
             model.addAttribute("user", nickName);  // 同步到 model 中，@SessionAttributes 会自动管理
             return "redirect:/index"; // 登录成功后重定向到首页
         } else {
-            model.addAttribute("error", "Invalid nickName or password"); // 登录失败，加入错误信息
+            model.addAttribute("error", "密码或者账号不存在"); // 登录失败，加入错误信息
             return "login"; // 返回到 login.html 页面
         }
     }

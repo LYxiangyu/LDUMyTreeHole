@@ -13,12 +13,11 @@
 <div class="card w-96 shadow-xl">
     <div class="card-body items-center text-center">
         <h2 class="card-title">登录</h2>
-
         <!-- 登录表单 -->
         <form action="/users/login" method="post">
             <label class="input input-bordered flex items-center gap-2">
-                账号
-                <input type="text" name="nickName" class="grow" placeholder="请输入你的账号" required />
+                用户
+                <input type="text" name="nickName" class="grow" placeholder="请输入你的用户名" required />
             </label>
             <label class="input input-bordered flex items-center gap-2">
                 密码
@@ -26,11 +25,6 @@
             </label>
             <button type="submit" class="btn">登录</button>
         </form>
-
-        <!-- 显示错误信息 -->
-        <div th:if="${error}" class="text-red-500 mt-4">
-            <p th:text="${error}"></p>
-        </div>
     </div>
 </div>
 
@@ -55,7 +49,7 @@
 <!-- 登录失败弹窗 -->
 <dialog id="my_modal_1" class="modal" th:if="${error}">
     <div class="modal-box">
-        <h3 class="text-lg font-bold">Hello!</h3>
+        <h3 class="text-lg font-bold">ERROR!</h3>
         <p class="py-4" th:text="${error}">登录失败，账号或者密码错误</p>
         <div class="modal-action">
             <form method="dialog">
