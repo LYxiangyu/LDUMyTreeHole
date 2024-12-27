@@ -37,6 +37,11 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/admin")
+    public String showLoginPage() {
+        return "/admin";
+    }
+
     @GetMapping("/search")
     public String getPostsByContent(@RequestParam String content, Model model) {
         List<Posts> posts = postsService.getPostsByContent(content);

@@ -31,3 +31,6 @@ VALUES
 INSERT INTO treeholedb.users(Nickname, Email, PasswordHash)
 VALUES
     ('xiangyu2233','759803588@qq.com',040918)
+INSERT INTO treeholedb.admins (UserID)
+VALUES
+    (5);

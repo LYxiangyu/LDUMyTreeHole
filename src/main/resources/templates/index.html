@@ -64,10 +64,10 @@
                             <a class="btn btn-accent mx-5" href="/users/mine">用户</a>
                         </li>
                         <li th:if="${users != null}">
-                            <a class="btn btn-accent" href="/users/logout">退出</a>
+                            <a class="btn btn-warning" href="/users/logout">退出</a>
                         </li>
                         <li th:if="${isAdmin != null}">
-                            <h1 class="btn btn-error mx-5">你好管理员</h1>
+                            <h1 class="btn btn-error mx-5" href="/admin">你好管理员</h1>
                         </li>
 
                     </ul>
