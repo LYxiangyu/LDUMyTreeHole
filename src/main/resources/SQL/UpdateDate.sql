@@ -28,3 +28,6 @@ VALUES
 INSERT INTO treeholedb.posts(UserID, Content)
 VALUES
     (1,'想你了就是翔宇啊！');
+INSERT INTO treeholedb.users(Nickname, Email, PasswordHash)
+VALUES
+    ('xiangyu2233','759803588@qq.com',040918)
