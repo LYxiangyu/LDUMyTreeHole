@@ -5,10 +5,17 @@
     <title>主页</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.22/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" herf="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-<div class="navbar glass shadow-xl rounded-lg mx-auto mt-4 max-w-screen-2xl w-full">
+<!-- 顶栏 -->
+<nav class="navbar fixed left-0 right-0 backdrop-blur shadow-xl rounded-lg mx-auto max-w-screen-2xl w-full z-50">
     <div class="flex-1">
         <a class="btn btn-ghost text-xl">TreeHole</a>
     </div>
@@ -25,7 +32,8 @@
             </div>
         </div>
     </div>
-</div>
+</nav>
+<!-- 广告部分 -->
 <div class="card mt-8 mx-auto w-full max-w-screen-lg bg-base-200 rounded-lg flex items-center justify-center">
     <div class="card-body text-center">
         <div class="artboard artboard-horizontal bg-base-300 phone-4 flex items-center justify-center rounded-lg">
@@ -33,21 +41,60 @@
         </div>
     </div>
 </div>
-<div class="mt-4 max-w-screen-xl w-full m-auto flex items-center justify-center">
-    <div class="flex w-full flex-col">
-        <div class="divider divider-neutral">悄悄话</div>
-    </div>
-    <div class="hero bg-base-200 min-h-screen">
-        <div class="hero-content text-center">
-            <div class="max-w-md">
-                <h1 class="text-5xl font-bold">Hello there</h1>
-                <p class="py-6">
-                    Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-                    quasi. In deleniti eaque aut repudiandae et a id nisi.
-                </p>
-                <button class="btn btn-primary">Get Started</button>
+<!-- 内容部分 -->
+<div class="mt-4 max-w-screen-xl w-full m-auto">
+    <div class="flex w-full flex-col items-center">
+        <!-- Divider 部分 -->
+        <div class="divider divider-neutral w-full text-center">悄悄话</div>
+        <div class="max-w-screen-lg w-full m-auto">
+            <div class="card bg-base-200 max-w-screen-lg w-full mt-5 ">
+                <div class="card-body">
+                    <h2 class="card-title">Card title!</h2>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                </div>
+                <details class="collapse bg-base-200">
+                    <summary class="collapse-title text-xl font-medium">Click to open/close</summary>
+                    <div class="collapse-content">
+                        <div>
+                            <ul class="menu bg-base-200 rounded-box w-full">
+                                <li>Item 1</li>
+                                <li>Item 2</li>
+                                <li>Item 3</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="divider divider-neutral w-full text-center">开始你的评论</div>
+                            <textarea class="textarea max-w-screen-lg" placeholder="Bio"></textarea>
+                        </div>
+                    </div>
+                </details>
             </div>
         </div>
+        <div class="max-w-screen-lg w-full m-auto">
+            <div class="card bg-base-200 max-w-screen-lg w-full mt-5">
+                <div class="card-body">
+                    <h2 class="card-title">Card title!</h2>
+                    <p>If a dog chews shoes whose shoes does he choose?</p>
+                </div>
+                <details class="collapse bg-base-200">
+                    <summary class="collapse-title text-xl font-medium">Click to open/close</summary>
+                    <div class="collapse-content">
+                        <div>
+                            <ul class="menu bg-base-200 rounded-box w-full">
+                                <li>Item 1</li>
+                                <li>Item 2</li>
+                                <li>Item 3</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="divider divider-neutral w-full text-center">开始你的评论</div>
+                            <textarea class="textarea max-w-screen-lg" placeholder="Bio"></textarea>
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </div>
+        <div class="divider divider-neutral w-full text-center">到底了，别看了</div>
     </div>
 </div>
 </body>
