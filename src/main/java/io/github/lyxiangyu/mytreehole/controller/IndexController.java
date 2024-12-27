@@ -38,7 +38,7 @@ public class IndexController {
     }
 
     @GetMapping("/admin")
-    public String showLoginPage() {
+    public String adminShow() {
         return "/admin";
     }
 

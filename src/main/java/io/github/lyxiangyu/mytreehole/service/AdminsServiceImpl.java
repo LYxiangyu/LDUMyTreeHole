@@ -4,7 +4,9 @@ import io.github.lyxiangyu.mytreehole.dao.AdminsDao;
 import io.github.lyxiangyu.mytreehole.entity.Admins;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminsServiceImpl implements AdminsService {
@@ -35,5 +37,18 @@ public class AdminsServiceImpl implements AdminsService {
     public Boolean validateAdmin(String nickName){
         Admins admins = adminsDao.getAdmins(nickName);
         return admins != null;
-    };
+    }
+
+    @Override
+    public Map<String, Integer> getStats() {
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("userCount", adminsDao.getUserCount());
+        stats.put("postCount", adminsDao.getPostCount());
+        stats.put("commentCount", adminsDao.getCommentCount());
+        return stats;
+    }
+
+    ;
+
+
 }

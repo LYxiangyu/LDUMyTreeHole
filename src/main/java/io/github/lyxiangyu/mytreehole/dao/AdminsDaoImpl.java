@@ -50,4 +50,22 @@ public class AdminsDaoImpl implements AdminsDao {
             return null;
         }
     }
+
+    @Override
+    public int getUserCount() {
+        String sql = "SELECT COUNT(*) FROM users";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+
+    @Override
+    public int getPostCount() {
+        String sql = "SELECT COUNT(*) FROM posts";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+
+    @Override
+    public int getCommentCount() {
+        String sql = "SELECT COUNT(*) FROM comments";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
 }
