@@ -2,7 +2,6 @@ package io.github.lyxiangyu.mytreehole.controller;
 
 import io.github.lyxiangyu.mytreehole.entity.Comments;
 import io.github.lyxiangyu.mytreehole.service.CommentsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,14 +10,16 @@ import java.util.List;
 @RequestMapping("/comments")
 public class CommentsController {
 
-    @Autowired
-    private CommentsService commentsService;
+    private final CommentsService commentsService;
+
+    // 构造器注入
+    public CommentsController(CommentsService commentsService) {
+        this.commentsService = commentsService;
+    }
 
     // 添加评论
     @PostMapping("/add")
-    public void addComment(@RequestParam Integer postId,
-                           @RequestParam Integer userId,
-                           @RequestParam String content) {
+    public void addComment(@RequestParam Integer postId, @RequestParam Integer userId, @RequestParam String content) {
         commentsService.addComment(postId, userId, content);
     }
 
@@ -34,9 +35,9 @@ public class CommentsController {
         return commentsService.getAllComments();
     }
 
-    // 根据评论ID获取评论
-    @GetMapping("/{commentId}")
-    public Comments getCommentById(@PathVariable Integer commentId) {
-        return commentsService.getCommentById(commentId);
+    // 根据帖子ID获取评论
+    @GetMapping("/post/{postId}")
+    public List<Comments> getCommentsByPostId(@PathVariable Integer postId) {
+        return commentsService.getCommentsByPostId(postId);
     }
 }

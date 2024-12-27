@@ -6,15 +6,9 @@ import java.util.List;
 
 public interface PostsService {
 
-    // 添加帖子
     void addPost(Integer userId, String content);
-
-    // 删除帖子
     void deletePost(Integer postId);
-
-    // 获取所有帖子
     List<Posts> getAllPosts();
-
-    // 根据内容查找帖子
     List<Posts> getPostsByContent(String content);
+    Posts getPostById(Integer postId);  // 获取特定帖子的详细信息
 }

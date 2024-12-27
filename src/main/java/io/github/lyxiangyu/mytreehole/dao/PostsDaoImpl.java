@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public class PostsDaoImpl implements PostsDao {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -22,28 +23,33 @@ public class PostsDaoImpl implements PostsDao {
     };
 
     @Override
-    public void  addPosts(Integer userId, String content){
-        String sql = "insert into posts (PostID, UserID, Content) values (?, ?, ?)";
+    public void addPosts(Integer userId, String content) {
+        String sql = "INSERT INTO Posts (UserID, Content) VALUES (?, ?)";
         jdbcTemplate.update(sql, userId, content);
-    };
+    }
 
     @Override
-    public void deletePosts(Integer postId){
-        String sql = "delete from posts where PostID = ?";
+    public void deletePosts(Integer postId) {
+        String sql = "DELETE FROM Posts WHERE PostID = ?";
         jdbcTemplate.update(sql, postId);
-    };
+    }
 
     @Override
     public List<Posts> getAllPosts() {
-        String sql = "select * from posts";
+        String sql = "SELECT * FROM Posts";
         return jdbcTemplate.query(sql, postsRowMapper);
     }
 
     @Override
     public List<Posts> getPostsByContent(String content) {
         String sql = "SELECT * FROM Posts WHERE Content LIKE ?";
-        String searchContent = "%" + content + "%"; // 使用 % 进行模糊匹配
+        String searchContent = "%" + content + "%";
         return jdbcTemplate.query(sql, new Object[]{searchContent}, postsRowMapper);
     }
 
+    @Override
+    public Posts getPostById(Integer postId) {
+        String sql = "SELECT * FROM Posts WHERE PostID = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{postId}, postsRowMapper);
+    }
 }

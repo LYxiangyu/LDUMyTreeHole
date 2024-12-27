@@ -13,7 +13,18 @@ VALUES
 INSERT INTO treeholedb.posts(UserID, Content)
 VALUES
     (4,'孩子们，我回来了！');
-
+INSERT INTO treeholedb.posts(UserID, Content)
+VALUES
+    (1,'想你了就是翔宇啊！');
 INSERT INTO treeholedb.comments(PostID, UserID, Content)
 VALUES
-    (1,2,'孩子们我回不来了！')
+    (1,2,'孩子们我回不来了！');
+INSERT INTO treeholedb.comments(PostID, UserID, Content)
+VALUES
+    (2,2,'孩子们这并不好笑！');
+INSERT INTO treeholedb.comments(PostID, UserID, Content)
+VALUES
+    (2,3,'孩子们这并不好笑！');
+INSERT INTO treeholedb.posts(UserID, Content)
+VALUES
+    (1,'想你了就是翔宇啊！');

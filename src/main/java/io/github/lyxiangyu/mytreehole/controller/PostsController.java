@@ -1,6 +1,8 @@
 package io.github.lyxiangyu.mytreehole.controller;
 
+import io.github.lyxiangyu.mytreehole.entity.Comments;
 import io.github.lyxiangyu.mytreehole.entity.Posts;
+import io.github.lyxiangyu.mytreehole.service.CommentsService;
 import io.github.lyxiangyu.mytreehole.service.PostsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +13,12 @@ import java.util.List;
 public class PostsController {
 
     private final PostsService postsService;
+    private final CommentsService commentsService;
 
     // 构造器注入
-    public PostsController(PostsService postsService) {
+    public PostsController(PostsService postsService, CommentsService commentsService) {
         this.postsService = postsService;
+        this.commentsService = commentsService;
     }
 
     // 添加帖子
@@ -34,10 +38,5 @@ public class PostsController {
     public List<Posts> getAllPosts() {
         return postsService.getAllPosts();
     }
-
-    // 根据内容查找帖子
-    @GetMapping("/search")
-    public List<Posts> getPostsByContent(@RequestParam String content) {
-        return postsService.getPostsByContent(content);
-    }
 }
+// 根据内容查找帖子

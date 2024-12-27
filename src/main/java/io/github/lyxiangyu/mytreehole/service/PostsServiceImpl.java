@@ -32,4 +32,9 @@ public class PostsServiceImpl implements PostsService {
     public List<Posts> getPostsByContent(String content) {
         return postsDao.getPostsByContent(content);
     }
+
+    @Override
+    public Posts getPostById(Integer postId) {
+        return postsDao.getPostById(postId);
+    }
 }

@@ -6,6 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.22/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../static/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         html, body {
             height: 100%;
@@ -33,6 +34,7 @@
         </div>
     </div>
 </nav>
+
 <!-- 广告部分 -->
 <div class="card mt-8 mx-auto w-full max-w-screen-lg bg-base-200 rounded-lg flex items-center justify-center">
     <div class="card-body text-center">
@@ -41,61 +43,92 @@
         </div>
     </div>
 </div>
+
 <!-- 内容部分 -->
 <div class="mt-4 max-w-screen-xl w-full m-auto">
     <div class="flex w-full flex-col items-center">
         <!-- Divider 部分 -->
         <div class="divider divider-neutral w-full text-center">悄悄话</div>
-        <div class="max-w-screen-lg w-full m-auto">
-            <div class="card bg-base-200 max-w-screen-lg w-full mt-5 ">
-                <div class="card-body">
-                    <h2 class="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                </div>
-                <details class="collapse bg-base-200">
-                    <summary class="collapse-title text-xl font-medium">Click to open/close</summary>
-                    <div class="collapse-content">
-                        <div>
-                            <ul class="menu bg-base-200 rounded-box w-full">
-                                <li>Item 1</li>
-                                <li>Item 2</li>
-                                <li>Item 3</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <div class="divider divider-neutral w-full text-center">开始你的评论</div>
-                            <textarea class="textarea max-w-screen-lg" placeholder="Bio"></textarea>
-                        </div>
-                    </div>
-                </details>
-            </div>
+
+        <div id="posts-container" class="max-w-screen-lg w-full m-auto">
+            <!-- 这里动态插入帖子和评论 -->
         </div>
-        <div class="max-w-screen-lg w-full m-auto">
-            <div class="card bg-base-200 max-w-screen-lg w-full mt-5">
-                <div class="card-body">
-                    <h2 class="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                </div>
-                <details class="collapse bg-base-200">
-                    <summary class="collapse-title text-xl font-medium">Click to open/close</summary>
-                    <div class="collapse-content">
-                        <div>
-                            <ul class="menu bg-base-200 rounded-box w-full">
-                                <li>Item 1</li>
-                                <li>Item 2</li>
-                                <li>Item 3</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <div class="divider divider-neutral w-full text-center">开始你的评论</div>
-                            <textarea class="textarea max-w-screen-lg" placeholder="Bio"></textarea>
-                        </div>
-                    </div>
-                </details>
-            </div>
-        </div>
+
         <div class="divider divider-neutral w-full text-center">到底了，别看了</div>
     </div>
 </div>
+
+<script>
+    // 页面加载时获取所有帖子并显示
+    $(document).ready(function() {
+        // 获取所有帖子
+        $.get("/posts/all", function(posts) {
+            posts.forEach(function(post) {
+                // 动态生成帖子卡片
+                let postCard = `
+                    <div class="card bg-base-200 max-w-screen-lg w-full mt-5">
+                        <div class="card-body">
+                            <h2 class="card-title">UserID: ${post.userId}</h2>
+                            <p>${post.content}</p>
+                        </div>
+                        <details class="collapse bg-base-200">
+                            <summary class="collapse-title text-xl font-medium">点击展开/关闭</summary>
+                            <div class="collapse-content">
+                                <ul class="menu bg-base-200 rounded-box w-full" id="comment-list-${post.postId}">
+                                    <!-- 动态加载评论 -->
+                                </ul>
+                                <div>
+                                    <div class="divider divider-neutral w-full text-center">开始你的评论</div>
+                                    <textarea class="textarea max-w-screen-lg" placeholder="评论内容" id="comment-input-${post.postId}"></textarea>
+                                    <button class="btn btn-primary mt-2" onclick="addComment(${post.postId})">提交评论</button>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                `;
+
+                // 插入到页面
+                $("#posts-container").append(postCard);
+
+                // 获取该帖子的评论
+                $.get(`/comments/post/${post.postId}`, function(comments) {
+                    comments.forEach(function(comment) {
+                        let commentItem = `
+                            <li>评论者 ${comment.userId}: ${comment.content}</li>
+                        `;
+                        $(`#comment-list-${post.postId}`).append(commentItem);
+                    });
+                });
+            });
+        });
+    });
+
+    // 添加评论的函数
+    function addComment(postId) {
+        let commentContent = $(`#comment-input-${postId}`).val();
+        if (commentContent.trim() === "") {
+            alert("评论内容不能为空！");
+            return;
+        }
+
+        // 假设用户ID是1，实际项目中可以通过Session或Token获取用户ID
+        let userId = 1;
+
+        $.post("/comments/add", { postId: postId, userId: userId, content: commentContent }, function() {
+            // 评论添加成功后，重新加载该帖子的评论
+            $.get(`/comments/post/${postId}`, function(comments) {
+                let commentList = $(`#comment-list-${postId}`);
+                commentList.empty();
+                comments.forEach(function(comment) {
+                    let commentItem = `
+                        <li>评论者 ${comment.userId}: ${comment.content}</li>
+                    `;
+                    commentList.append(commentItem);
+                });
+            });
+        });
+    }
+</script>
+
 </body>
 </html>

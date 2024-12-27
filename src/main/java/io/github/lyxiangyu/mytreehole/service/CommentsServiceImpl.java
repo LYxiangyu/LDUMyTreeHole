@@ -25,17 +25,11 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public List<Comments> getAllComments() {
-        return commentsDao.getAllComment();
+        return commentsDao.getAllComments();
     }
 
     @Override
-    public Comments getCommentById(Integer commentId) {
-        List<Comments> commentsList = commentsDao.getAllComment();
-        for (Comments comment : commentsList) {
-            if (comment.getCommentId().equals(commentId)) {
-                return comment;
-            }
-        }
-        return null; // 若没有找到，返回 null
+    public List<Comments> getCommentsByPostId(Integer postId) {
+        return commentsDao.getCommentsByPostId(postId);
     }
 }
