@@ -93,7 +93,8 @@
                 <div class="card-body">
                     <div class="flex items-center space-x-2">
                         <textarea class="auto-expand textarea textarea-bordered flex-grow max-w-screen-lg h-10 resize-none" placeholder="帖子内容"></textarea>
-                        <button class="btn btn-primary h-10">发布帖子</button>
+                        <button class="btn btn-primary h-10" th:if="${users == null}" disabled="disabled" >发布帖子</button>
+                        <button class="btn btn-primary h-10" th:if="${users != null}" onclick="addPost()">发布帖子</button>
                     </div>
                 </div>
             </div>
@@ -107,7 +108,8 @@
         </div>
     </div>
 
-    <script>
+    <script th:inline="javascript">
+        const users = /*[[${users != null ? "'" + users + "'" : null}]]*/ null;
         // 页面加载时获取所有帖子并显示
         $(document).ready(function() {
             // 获取所有帖子
@@ -130,7 +132,7 @@
                                 </div>
                                 <div class="flex items-center space-x-2 mt-3 max-w-screen-md">
                                     <textarea class="auto-expand textarea textarea-bordered h-4 max-w-screen-md" placeholder="评论内容" id="comment-input-${post.postId}" oninput="autoExpand(this)"></textarea>
-                                    <button class="btn btn-primary" onclick="addComment(${post.postId})">提交评论</button>
+                                    <button class="btn btn-primary" ${users == null ? 'disabled="disabled"' : ''}  onclick="addComment(${post.postId}) ">提交评论</button>
                                 </div>
                             </div>
                         </details>
