@@ -12,6 +12,25 @@
             height: 100%;
             width: 100%;
         }
+        /* 设置初始的textarea最小高度，减小初始大小 */
+        .auto-expand {
+            min-height: 40px;  /* 设置评论框初始高度为40px */
+            resize: none; /* 禁止手动调整大小 */
+            overflow-y: hidden; /* 隐藏垂直滚动条 */
+        }
+        /* 增强帖子内容框的样式 */
+        .post-content {
+            background: #f9fafb; /* 设置背景色为淡灰色 */
+            padding: 20px;  /* 增加内边距 */
+            border-radius: 10px;  /* 圆角 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* 阴影 */
+            transition: all 0.3s ease;  /* 添加过渡效果 */
+            font-size: 1.2rem; /* 增加字体大小，突出帖子内容 */
+            max-width: 100%;  /* 使内容框宽度占满父容器 */
+        }
+        .post-content:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);  /* 鼠标悬停时加深阴影 */
+        }
     </style>
 </head>
 <body>
@@ -69,18 +88,19 @@
                     <div class="card bg-base-200 max-w-screen-lg w-full mt-5">
                         <div class="card-body">
                             <h2 class="card-title">UserID: ${post.userId}</h2>
-                            <p>${post.content}</p>
+                            <div class="post-content">
+                                <p>${post.content}</p>
+                            </div>
                         </div>
                         <details class="collapse bg-base-200">
-                            <summary class="collapse-title text-xl font-medium">点击展开/关闭</summary>
+                            <summary class="collapse-title text-xl font-medium">评论</summary>
                             <div class="collapse-content">
-                                <ul class="menu bg-base-200 rounded-box w-full" id="comment-list-${post.postId}">
+                                <div id="comment-list-${post.postId}">
                                     <!-- 动态加载评论 -->
-                                </ul>
-                                <div>
-                                    <div class="divider divider-neutral w-full text-center">开始你的评论</div>
-                                    <textarea class="textarea max-w-screen-lg" placeholder="评论内容" id="comment-input-${post.postId}"></textarea>
-                                    <button class="btn btn-primary mt-2" onclick="addComment(${post.postId})">提交评论</button>
+                                </div>
+                                <div class="flex items-center space-x-2 mt-3">
+                                    <textarea class="auto-expand textarea textarea-bordered w-80" placeholder="评论内容" id="comment-input-${post.postId}" oninput="autoExpand(this)"></textarea>
+                                    <button class="btn btn-primary" onclick="addComment(${post.postId})">提交评论</button>
                                 </div>
                             </div>
                         </details>
@@ -93,10 +113,15 @@
                 // 获取该帖子的评论
                 $.get(`/comments/post/${post.postId}`, function(comments) {
                     comments.forEach(function(comment) {
-                        let commentItem = `
-                            <li>评论者 ${comment.userId}: ${comment.content}</li>
+                        let commentCard = `
+                            <div class="card bg-base-100 my-2">
+                                <div class="card-body p-4">
+                                    <h3 class="card-title text-lg">评论者 ${comment.userId}</h3>
+                                    <p>${comment.content}</p>
+                                </div>
+                            </div>
                         `;
-                        $(`#comment-list-${post.postId}`).append(commentItem);
+                        $(`#comment-list-${post.postId}`).append(commentCard);
                     });
                 });
             });
@@ -120,13 +145,26 @@
                 let commentList = $(`#comment-list-${postId}`);
                 commentList.empty();
                 comments.forEach(function(comment) {
-                    let commentItem = `
-                        <li>评论者 ${comment.userId}: ${comment.content}</li>
+                    let commentCard = `
+                        <div class="card bg-base-100 my-2">
+                            <div class="card-body p-4">
+                                <h3 class="card-title text-lg">评论者 ${comment.userId}</h3>
+                                <p>${comment.content}</p>
+                            </div>
+                        </div>
                     `;
-                    commentList.append(commentItem);
+                    commentList.append(commentCard);
                 });
             });
         });
+    }
+
+    // 自动扩展textarea高度的函数
+    function autoExpand(element) {
+        // 重置高度为初始值，避免出现问题
+        element.style.height = 'auto';
+        // 设置新的高度，基于内容的实际高度
+        element.style.height = (element.scrollHeight) + "px";
     }
 </script>
 
