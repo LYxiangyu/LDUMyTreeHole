@@ -12,4 +12,5 @@ public interface UsersDao {
     void updateUserPassword(int id, String passwordHash);
 
     Users getUserByUsernameAndPassword(String nickName, String passwordHash);
+    List<Users> getUserByNickName(String nickName);  // 返回一个用户列表，可能有多个用户
 }

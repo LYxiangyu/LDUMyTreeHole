@@ -17,4 +17,5 @@ public interface UsersService {
     void updateUserPassword(int id, String passwordHash);
 
     Boolean validateUser(String nickName, String passwordHash);
+    List<Users> getUserByNickName(String nickName);
 }

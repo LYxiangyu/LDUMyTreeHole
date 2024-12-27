@@ -49,6 +49,11 @@ public class UsersDaoImpl implements UsersDao {
         String sql = "update users set PasswordHash = ? where UserID = ?";
         jdbcTemplate.update(sql,passwordHash,id);
     };
+    @Override
+    public List<Users> getUserByNickName(String nickName) {
+        String sql = "SELECT * FROM users WHERE nickname = ?";
+        return jdbcTemplate.query(sql, new Object[]{nickName}, usersRowMapper);
+    }
 
     @Override
     public Users  getUserByUsernameAndPassword(String nickName, String passwordHash){

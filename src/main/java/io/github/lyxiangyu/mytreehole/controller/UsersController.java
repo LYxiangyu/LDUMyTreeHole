@@ -1,9 +1,14 @@
 package io.github.lyxiangyu.mytreehole.controller;
 
+import io.github.lyxiangyu.mytreehole.dao.UsersDao;
+import io.github.lyxiangyu.mytreehole.dao.UsersDaoImpl;
 import io.github.lyxiangyu.mytreehole.entity.Users;
 import io.github.lyxiangyu.mytreehole.service.UsersService;
+import io.github.lyxiangyu.mytreehole.service.UsersServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +19,12 @@ import java.util.List;
 @RequestMapping("/users")
 @SessionAttributes("users")
 public class UsersController {
-
+    @Autowired
+    private UsersDaoImpl usersRepository;
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private UsersServiceImpl usersServiceImpl;
 
     // 显示登录页面
     @GetMapping("/login")
@@ -43,8 +51,20 @@ public class UsersController {
     }
 
     @PostMapping("/add")
-    public void addUser(@RequestParam String nickName, @RequestParam String email, @RequestParam String passwordHash) {
+    public String addUser(@RequestParam String nickName,
+                          @RequestParam String email,
+                          @RequestParam String passwordHash,
+                          Model model) {
+        // 检查用户名是否已存在
+        List<Users> existingUsers = usersService.getUserByNickName(nickName);
+        if (!existingUsers.isEmpty()) {
+            model.addAttribute("error", "用户名已存在，请选择其他用户名");
+            return "register";  // 返回到注册页面
+        }
+
+        // 用户名不存在，继续添加用户
         usersService.addUser(nickName, email, passwordHash);
+        return "redirect:/users/login";  // 注册成功后重定向到登录页面
     }
 
     @DeleteMapping("/delete/{id}")
