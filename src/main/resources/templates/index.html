@@ -65,6 +65,9 @@
                     <li th:if="${users != null}">
                         <a class="btn btn-accent" href="/users/logout">退出</a>
                     </li>
+                    <li th:if="${isAdmin != null}">
+                        <h1>你好管理员</h1>
+                    </li>
 
                 </ul>
             </div>

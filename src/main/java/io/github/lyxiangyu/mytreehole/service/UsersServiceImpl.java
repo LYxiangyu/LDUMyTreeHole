@@ -52,7 +52,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public List<Users> getUserByNickName(String nickName) {
         return usersDaoImpl.getUserByNickName(nickName); // 调用 Dao 层的方法获取数据
-}
+    }
 // 新增统计功能
 
     /**

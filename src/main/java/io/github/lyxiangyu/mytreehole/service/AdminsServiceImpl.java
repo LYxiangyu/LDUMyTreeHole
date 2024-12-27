@@ -30,4 +30,10 @@ public class AdminsServiceImpl implements AdminsService {
     public List<Admins> getAllAdmins() {
         return adminsDao.getAllAdmins();
     }
+
+    @Override
+    public Boolean validateAdmin(String nickName){
+        Admins admins = adminsDao.getAdmins(nickName);
+        return admins != null;
+    };
 }

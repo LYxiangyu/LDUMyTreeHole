@@ -2,6 +2,7 @@ package io.github.lyxiangyu.mytreehole.dao;
 
 import io.github.lyxiangyu.mytreehole.entity.Admins;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -37,5 +38,16 @@ public class AdminsDaoImpl implements AdminsDao {
     public List<Admins> getAllAdmins(){
         String sql = "select * from admins";
         return jdbcTemplate.query(sql, adminsRowMapper);
+    }
+
+    @Override
+    public Admins getAdmins(String nickName){
+        String sql = "select * from admins JOIN treeholedb.users u on u.UserID = admins.UserID  where Nickname=?";
+        try {
+            return jdbcTemplate.queryForObject(sql, adminsRowMapper, nickName);
+        } catch (EmptyResultDataAccessException e) {
+            // 查询没有找到结果，返回 null
+            return null;
+        }
     }
 }

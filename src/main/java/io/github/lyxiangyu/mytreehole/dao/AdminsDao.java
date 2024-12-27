@@ -8,4 +8,6 @@ public interface AdminsDao {
     void addAdmins(Integer userId);
     void deleteAdmins(Integer adminId);
     List<Admins> getAllAdmins();
+
+    Admins getAdmins(String nickName);
 }

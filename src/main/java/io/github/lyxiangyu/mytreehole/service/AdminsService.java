@@ -11,4 +11,6 @@ public interface AdminsService {
     void deleteAdmin(Integer adminId);
 
     List<Admins> getAllAdmins();
+
+    Boolean validateAdmin(String nickName);
 }

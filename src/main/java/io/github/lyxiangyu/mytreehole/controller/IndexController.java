@@ -26,6 +26,10 @@ public class IndexController {
     public String getUserFromSession(@SessionAttribute(required = false) String users) {
         return users;  // 返回用户信息，或者为空
     }
+    @ModelAttribute("isAdmin")
+    public String getIsAdminFromSession(@SessionAttribute(required = false) String isAdmin) {
+        return isAdmin;
+    }
 
     @GetMapping("/index")
     public String index() {
@@ -35,7 +39,6 @@ public class IndexController {
     @GetMapping("/search")
     public String getPostsByContent(@RequestParam String content, Model model) {
         List<Posts> posts = postsService.getPostsByContent(content);
-
         // 将搜索结果传递到 search.html 页面
         model.addAttribute("posts", posts);
         model.addAttribute("searchContent", content);  // 传递搜索的关键词，方便在页面显示
