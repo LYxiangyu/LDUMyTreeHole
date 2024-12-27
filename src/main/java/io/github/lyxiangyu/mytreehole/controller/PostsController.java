@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/posts")
 public class PostsController {
 
@@ -40,15 +40,5 @@ public class PostsController {
         return postsService.getAllPosts();
     }
     // 根据内容查找帖子
-    @GetMapping("/search")
-    public String getPostsByContent(@RequestParam String content, Model model) {
-        List<Posts> posts = postsService.getPostsByContent(content);
-
-        // 将搜索结果传递到 search.html 页面
-        model.addAttribute("posts", posts);
-        model.addAttribute("searchContent", content);  // 传递搜索的关键词，方便在页面显示
-        // 返回 search 页面
-        return "search";  // 这里返回的是 "search.html" 页面
-    }
 }
 
