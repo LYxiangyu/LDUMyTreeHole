@@ -2,6 +2,7 @@ package io.github.lyxiangyu.mytreehole.service;
 
 import io.github.lyxiangyu.mytreehole.dao.PostsDao;
 import io.github.lyxiangyu.mytreehole.entity.Posts;
+import io.github.lyxiangyu.mytreehole.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,10 @@ public class PostsServiceImpl implements PostsService {
     @Override
     public Posts getPostById(Integer postId) {
         return postsDao.getPostById(postId);
+    }
+
+    @Override
+    public Integer getUserIdByUsername(String username) {
+        return postsDao.findByUsername(username);
     }
 }

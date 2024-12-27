@@ -2,6 +2,7 @@ package io.github.lyxiangyu.mytreehole.dao;
 
 import io.github.lyxiangyu.mytreehole.entity.Posts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -51,5 +52,16 @@ public class PostsDaoImpl implements PostsDao {
     public Posts getPostById(Integer postId) {
         String sql = "SELECT * FROM Posts WHERE PostID = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{postId}, postsRowMapper);
+    }
+
+    @Override
+    public Integer findByUsername(String username){
+        String sql = "SELECT UserID FROM Users WHERE Nickname = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
+        } catch (EmptyResultDataAccessException e) {
+            // 如果未找到结果，返回 null
+            return null;
+        }
     }
 }

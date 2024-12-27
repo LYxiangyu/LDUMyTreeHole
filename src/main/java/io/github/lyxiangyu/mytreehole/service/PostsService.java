@@ -11,4 +11,5 @@ public interface PostsService {
     List<Posts> getAllPosts();
     List<Posts> getPostsByContent(String content);
     Posts getPostById(Integer postId);  // 获取特定帖子的详细信息
+    public Integer getUserIdByUsername(String username);
 }

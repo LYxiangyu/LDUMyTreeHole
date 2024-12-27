@@ -111,6 +111,32 @@
     <script th:inline="javascript">
         const users = /*[[${users != null ? "'" + users + "'" : null}]]*/ null;
         // 页面加载时获取所有帖子并显示
+        function addPost() {
+            let postContent = $(".textarea[placeholder='帖子内容']").val(); // 获取输入的帖子内容
+
+            if (postContent.trim() === "") {
+                alert("帖子内容不能为空！");
+                return;
+            }
+
+            // 假设用户 ID 是从后端注入的全局变量 users
+            if (users == null) {
+                alert("请先登录！");
+                return;
+            }
+            let cleanUsers = users.replace(/^'(.*)'$/, '$1');
+            // 调用后端 API 添加帖子
+            $.post("/posts/add", { username: cleanUsers, content: postContent }, function () {
+                console.log("帖子发布成功！");
+                // 清空输入框
+                $(".textarea[placeholder='帖子内容']").val("");// 清空输入框
+                // 重新加载帖子
+                location.reload(); // 或者调用一个函数动态刷新帖子
+            }).fail(function () {
+                console.log("发布失败，请稍后再试！");
+            });
+        }
+
         $(document).ready(function() {
             // 获取所有帖子
             $.get("/posts/all", function(posts) {

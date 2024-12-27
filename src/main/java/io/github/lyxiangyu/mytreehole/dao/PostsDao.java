@@ -10,4 +10,5 @@ public interface PostsDao {
     List<Posts> getAllPosts();  // 获取所有帖子
     List<Posts> getPostsByContent(String content); // 根据内容查找帖子
     Posts getPostById(Integer postId);  // 获取特定帖子的详细信息
+    Integer findByUsername(String username);
 }
