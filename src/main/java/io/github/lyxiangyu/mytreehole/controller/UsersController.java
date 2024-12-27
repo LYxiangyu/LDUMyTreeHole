@@ -36,6 +36,12 @@ public class UsersController {
     public String showRegisterPage() {
         return "/register"; // 返回 login.html 页面
     }
+    // 显示用户的主页
+    @GetMapping("/mine")
+    public String showMinePage(Model model) {
+        // 这里可以传递更多的数据到 mine 页面
+        return "mine"; // 返回 mine.html 页面
+    }
 
     // 登录请求处理
     @PostMapping("/login")
@@ -67,6 +73,19 @@ public class UsersController {
         return "redirect:/users/login";  // 注册成功后重定向到登录页面
     }
 
+    @GetMapping("/statistics/{id}")
+    public String getUserStatistics(@PathVariable int id, Model model) {
+        // 获取用户的统计信息
+        String statistics = usersService.getUserStatistics(id);
+
+        // 将统计信息传递到 model
+        model.addAttribute("statistics", statistics);
+
+        // 返回 mine 页面
+        return "mine"; // 视图文件 mine.html
+    }
+
+
     @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable int id) {
         usersService.deleteUserById(id);
@@ -86,10 +105,5 @@ public class UsersController {
     public void updateUserPassword(@PathVariable int id, @RequestParam String passwordHash) {
         usersService.updateUserPassword(id, passwordHash);
     }
-    @GetMapping("/statistics/{id}")
-    public String getUserStatistics(@PathVariable int id, Model model) {
-        String statistics = usersService.getUserStatistics(id);
-        model.addAttribute("statistics", statistics);
-        return "userStatistics"; // 返回显示统计信息的页面
-    }
+
 }
