@@ -3,6 +3,7 @@ package io.github.lyxiangyu.mytreehole.controller;
 import io.github.lyxiangyu.mytreehole.entity.Posts;
 import io.github.lyxiangyu.mytreehole.service.CommentsService;
 import io.github.lyxiangyu.mytreehole.service.PostsService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,4 +46,5 @@ public class IndexController {
         // 返回 search 页面
         return "search";  // 这里返回的是 "search.html" 页面
     }
+
 }

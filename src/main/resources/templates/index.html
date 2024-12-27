@@ -194,24 +194,29 @@
                 return;
             }
 
-            // 假设用户ID是1，实际项目中可以通过Session或Token获取用户ID
-            let userId = 1;
+            let cleanUsers = users.replace(/^'(.*)'$/, '$1');
+            $.get("/comments/getUserId", { username: cleanUsers }, function(userId) {
+                if (userId == null) {
+                    alert("无法获取用户信息，请稍后重试！");
+                    return;
+                }
 
-            $.post("/comments/add", { postId: postId, userId: userId, content: commentContent }, function() {
-                // 评论添加成功后，重新加载该帖子的评论
-                $.get(`/comments/post/${postId}`, function(comments) {
-                    let commentList = $(`#comment-list-${postId}`);
-                    commentList.empty();
-                    comments.forEach(function(comment) {
-                        let commentCard = `
-                        <div class="card bg-base-100 my-2">
-                            <div class="card-body p-4">
-                                <h3 class="card-title text-lg">评论者 ${comment.userId}</h3>
-                                <p>${comment.content}</p>
+                $.post("/comments/add", { postId: postId, userId: userId, content: commentContent }, function() {
+                    // 评论添加成功后，重新加载该帖子的评论
+                    $.get(`/comments/post/${postId}`, function(comments) {
+                        let commentList = $(`#comment-list-${postId}`);
+                        commentList.empty();
+                        comments.forEach(function(comment) {
+                            let commentCard = `
+                            <div class="card bg-base-100 my-2">
+                                <div class="card-body p-4">
+                                    <h3 class="card-title text-lg">评论者 ${comment.userId}</h3>
+                                    <p>${comment.content}</p>
+                                </div>
                             </div>
-                        </div>
-                    `;
-                        commentList.append(commentCard);
+                        `;
+                            commentList.append(commentCard);
+                        });
                     });
                 });
             });

@@ -2,6 +2,9 @@ package io.github.lyxiangyu.mytreehole.controller;
 
 import io.github.lyxiangyu.mytreehole.entity.Comments;
 import io.github.lyxiangyu.mytreehole.service.CommentsService;
+import io.github.lyxiangyu.mytreehole.service.PostsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +14,9 @@ import java.util.List;
 public class CommentsController {
 
     private final CommentsService commentsService;
+
+    @Autowired
+    private PostsService postsService;
 
     // 构造器注入
     public CommentsController(CommentsService commentsService) {
@@ -39,5 +45,14 @@ public class CommentsController {
     @GetMapping("/post/{postId}")
     public List<Comments> getCommentsByPostId(@PathVariable Integer postId) {
         return commentsService.getCommentsByPostId(postId);
+    }
+
+    @GetMapping("/getUserId")
+    public ResponseEntity<Integer> getUserId(@RequestParam String username) {
+        Integer userId = postsService.getUserIdByUsername(username);
+        if (userId == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        return ResponseEntity.ok(userId);
     }
 }

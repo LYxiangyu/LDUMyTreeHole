@@ -47,7 +47,6 @@ public class PostsController {
         return ResponseEntity.ok("帖子添加成功");
     }
 
-
     // 删除帖子
     @DeleteMapping("/delete/{postId}")
     public void deletePost(@PathVariable Integer postId) {
