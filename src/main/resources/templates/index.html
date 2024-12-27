@@ -14,7 +14,7 @@
         }
         /* 设置初始的textarea最小高度，减小初始大小 */
         .auto-expand {
-            min-height: 40px;  /* 设置评论框初始高度为40px */
+            /*min-height: 40px;  !* 设置评论框初始高度为40px *!*/
             resize: none; /* 禁止手动调整大小 */
             overflow-y: hidden; /* 隐藏垂直滚动条 */
         }
@@ -34,93 +34,102 @@
     </style>
 </head>
 <body>
-<!-- 顶栏 -->
-<nav class="navbar fixed left-0 right-0 backdrop-blur shadow-xl rounded-lg mx-auto max-w-screen-2xl w-full z-50">
-    <div class="flex-1">
-        <a class="btn btn-ghost text-xl">TreeHole</a>
-    </div>
-    <div class="flex-none gap-2">
-        <div class="form-control">
-            <form action="/search" method="GET" class="form-control flex items-center">
-                <label class="input input-bordered flex items-center gap-2">
-                    <input type="text" name="content" class="grow" placeholder="Search" />
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
-                        <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-                    </svg>
-                </label>
-            </form>
+<div class=" bg-cover bg-center" th:style="'background-image: url(/pictures/index.jpg)'">
+    <!-- 顶栏 -->
+    <nav class="navbar fixed left-0 right-0 backdrop-blur shadow-xl rounded-lg mx-auto max-w-screen-2xl w-full z-50">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl">TreeHole</a>
         </div>
-        <div>
-            <div class="flex-none" >
-                <ul class="menu menu-horizontal px-1">
-                    <li th:if="${users == null}">
-                        <a class="btn btn-primary mx-5" href="users/login">登录</a>
-                    </li>
-                    <li th:if="${users == null}">
-                        <a class="btn btn-accent" href="users/register">注册</a>
-                    </li>
-                    <li th:if="${users != null}">
-                        <a class="btn btn-accent" href="/users/mine">用户</a>
-                    </li>
-                    <li th:if="${users != null}">
-                        <a class="btn btn-accent" href="/users/logout">退出</a>
-                    </li>
-                    <li th:if="${isAdmin != null}">
-                        <h1>你好管理员</h1>
-                    </li>
+        <div class="flex-none gap-2">
+            <div class="form-control">
+                <form action="/search" method="GET" class="form-control flex items-center">
+                    <label class="input input-bordered flex items-center gap-2">
+                        <input type="text" name="content" class="grow" placeholder="Search" />
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
+                            <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                        </svg>
+                    </label>
+                </form>
+            </div>
+            <div>
+                <div class="flex-none" >
+                    <ul class="menu menu-horizontal px-1">
+                        <li th:if="${users == null}">
+                            <a class="btn btn-primary mx-5" href="users/login">登录</a>
+                        </li>
+                        <li th:if="${users == null}">
+                            <a class="btn btn-accent" href="users/register">注册</a>
+                        </li>
+                        <li th:if="${users != null}">
+                            <a class="btn btn-accent mx-5" href="/users/mine">用户</a>
+                        </li>
+                        <li th:if="${users != null}">
+                            <a class="btn btn-accent" href="/users/logout">退出</a>
+                        </li>
+                        <li th:if="${isAdmin != null}">
+                            <h1 class="btn btn-error mx-5">你好管理员</h1>
+                        </li>
 
-                </ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 广告部分 -->
+    <div class="card mt-5 mx-auto w-full max-w-screen-lg backdrop-blur-md rounded-lg flex items-center justify-center">
+        <div class="card-body text-center">
+            <div class="artboard artboard-horizontal backdrop-blur-xl phone-4 flex items-center justify-center rounded-lg">
+                <h2 class="font-bold">广告招租中</h2>
             </div>
         </div>
     </div>
-</nav>
 
-<!-- 广告部分 -->
-<div class="card mt-8 mx-auto w-full max-w-screen-lg bg-base-200 rounded-lg flex items-center justify-center">
-    <div class="card-body text-center">
-        <div class="artboard artboard-horizontal bg-base-300 phone-4 flex items-center justify-center rounded-lg">
-            <h2 class="font-bold">广告招租中</h2>
+    <!-- 内容部分 -->
+    <div class="mt-4 max-w-screen-xl w-full m-auto">
+        <div class="flex w-full flex-col items-center">
+            <div class="divider font-bold w-full text-center">开始你的发言</div>
+            <div class="card glass max-w-screen-lg w-full mt-5">
+                <div class="card-body">
+                    <div class="flex items-center space-x-2">
+                        <textarea class="auto-expand textarea textarea-bordered flex-grow max-w-screen-lg h-10 resize-none" placeholder="帖子内容"></textarea>
+                        <button class="btn btn-primary h-10">发布帖子</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Divider 部分 -->
+            <div class="divider  w-full text-center">悄悄话</div>
+
+            <div id="posts-container" class="max-w-screen-lg w-full m-auto">
+                <!-- 这里动态插入帖子和评论 -->
+            </div>
+            <div class="divider  w-full text-center">到底了，别看了</div>
         </div>
     </div>
-</div>
 
-<!-- 内容部分 -->
-<div class="mt-4 max-w-screen-xl w-full m-auto">
-    <div class="flex w-full flex-col items-center">
-        <!-- Divider 部分 -->
-        <div class="divider divider-neutral w-full text-center">悄悄话</div>
-
-        <div id="posts-container" class="max-w-screen-lg w-full m-auto">
-            <!-- 这里动态插入帖子和评论 -->
-        </div>
-
-        <div class="divider divider-neutral w-full text-center">到底了，别看了</div>
-    </div>
-</div>
-
-<script>
-    // 页面加载时获取所有帖子并显示
-    $(document).ready(function() {
-        // 获取所有帖子
-        $.get("/posts/all", function(posts) {
-            posts.forEach(function(post) {
-                // 动态生成帖子卡片
-                let postCard = `
-                    <div class="card bg-base-200 max-w-screen-lg w-full mt-5">
+    <script>
+        // 页面加载时获取所有帖子并显示
+        $(document).ready(function() {
+            // 获取所有帖子
+            $.get("/posts/all", function(posts) {
+                posts.forEach(function(post) {
+                    // 动态生成帖子卡片
+                    let postCard = `
+                    <div class="card glass max-w-screen-lg w-full mt-5">
                         <div class="card-body">
                             <h2 class="card-title">UserID: ${post.userId}</h2>
                             <div class="post-content">
                                 <p>${post.content}</p>
                             </div>
                         </div>
-                        <details class="collapse bg-base-200">
+                        <details class="collapse glass">
                             <summary class="collapse-title text-xl font-medium">评论</summary>
                             <div class="collapse-content">
                                 <div id="comment-list-${post.postId}">
                                     <!-- 动态加载评论 -->
                                 </div>
-                                <div class="flex items-center space-x-2 mt-3">
-                                    <textarea class="auto-expand textarea textarea-bordered w-80" placeholder="评论内容" id="comment-input-${post.postId}" oninput="autoExpand(this)"></textarea>
+                                <div class="flex items-center space-x-2 mt-3 max-w-screen-md">
+                                    <textarea class="auto-expand textarea textarea-bordered h-4 max-w-screen-md" placeholder="评论内容" id="comment-input-${post.postId}" oninput="autoExpand(this)"></textarea>
                                     <button class="btn btn-primary" onclick="addComment(${post.postId})">提交评论</button>
                                 </div>
                             </div>
@@ -128,13 +137,13 @@
                     </div>
                 `;
 
-                // 插入到页面
-                $("#posts-container").append(postCard);
+                    // 插入到页面
+                    $("#posts-container").append(postCard);
 
-                // 获取该帖子的评论
-                $.get(`/comments/post/${post.postId}`, function(comments) {
-                    comments.forEach(function(comment) {
-                        let commentCard = `
+                    // 获取该帖子的评论
+                    $.get(`/comments/post/${post.postId}`, function(comments) {
+                        comments.forEach(function(comment) {
+                            let commentCard = `
                             <div class="card bg-base-100 my-2">
                                 <div class="card-body p-4">
                                     <h3 class="card-title text-lg">评论者 ${comment.userId}</h3>
@@ -142,31 +151,31 @@
                                 </div>
                             </div>
                         `;
-                        $(`#comment-list-${post.postId}`).append(commentCard);
+                            $(`#comment-list-${post.postId}`).append(commentCard);
+                        });
                     });
                 });
             });
         });
-    });
 
-    // 添加评论的函数
-    function addComment(postId) {
-        let commentContent = $(`#comment-input-${postId}`).val();
-        if (commentContent.trim() === "") {
-            alert("评论内容不能为空！");
-            return;
-        }
+        // 添加评论的函数
+        function addComment(postId) {
+            let commentContent = $(`#comment-input-${postId}`).val();
+            if (commentContent.trim() === "") {
+                alert("评论内容不能为空！");
+                return;
+            }
 
-        // 假设用户ID是1，实际项目中可以通过Session或Token获取用户ID
-        let userId = 1;
+            // 假设用户ID是1，实际项目中可以通过Session或Token获取用户ID
+            let userId = 1;
 
-        $.post("/comments/add", { postId: postId, userId: userId, content: commentContent }, function() {
-            // 评论添加成功后，重新加载该帖子的评论
-            $.get(`/comments/post/${postId}`, function(comments) {
-                let commentList = $(`#comment-list-${postId}`);
-                commentList.empty();
-                comments.forEach(function(comment) {
-                    let commentCard = `
+            $.post("/comments/add", { postId: postId, userId: userId, content: commentContent }, function() {
+                // 评论添加成功后，重新加载该帖子的评论
+                $.get(`/comments/post/${postId}`, function(comments) {
+                    let commentList = $(`#comment-list-${postId}`);
+                    commentList.empty();
+                    comments.forEach(function(comment) {
+                        let commentCard = `
                         <div class="card bg-base-100 my-2">
                             <div class="card-body p-4">
                                 <h3 class="card-title text-lg">评论者 ${comment.userId}</h3>
@@ -174,20 +183,20 @@
                             </div>
                         </div>
                     `;
-                    commentList.append(commentCard);
+                        commentList.append(commentCard);
+                    });
                 });
             });
-        });
-    }
+        }
 
-    // 自动扩展textarea高度的函数
-    function autoExpand(element) {
-        // 重置高度为初始值，避免出现问题
-        element.style.height = 'auto';
-        // 设置新的高度，基于内容的实际高度
-        element.style.height = (element.scrollHeight) + "px";
-    }
-</script>
-
+        // 自动扩展textarea高度的函数
+        function autoExpand(element) {
+            // 重置高度为初始值，避免出现问题
+            element.style.height = 'auto';
+            // 设置新的高度，基于内容的实际高度
+            element.style.height = (element.scrollHeight) + "px";
+        }
+    </script>
+</div>
 </body>
 </html>
