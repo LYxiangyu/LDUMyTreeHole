@@ -24,9 +24,9 @@
                 &nbsp;《送杜少府之任蜀州》
             </p>
         </div>
-        <div class="card glass w-full max-w-sm shrink-0 shadow-2xl">
+        <div class="card glass w-full max-w-sm shrink-0 shadow-2xl" >
             <form class="card-body" action="/users/login" method="POST">
-                <div class="form-control">
+                <div class="form-control" >
                     <label class="label">
                         <span class="label-text">用户名</span>
                     </label>
@@ -44,6 +44,13 @@
                 <div class="form-control mt-6">
                     <button type="submit" class="btn btn-primary">登录</button>
                 </div>
+                <div class="form-control mt-6" th:if="${users == null}">
+                    <h>未登录</h>
+                </div>
+                <div class="form-control mt-6" th:if="${users != null}">
+                   <h>已登录</h>
+                </div>
+
             </form>
         </div>
     </div>

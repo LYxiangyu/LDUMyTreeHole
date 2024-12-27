@@ -1,17 +1,13 @@
 package io.github.lyxiangyu.mytreehole.controller;
 
-import io.github.lyxiangyu.mytreehole.dao.UsersDao;
-import io.github.lyxiangyu.mytreehole.dao.UsersDaoImpl;
 import io.github.lyxiangyu.mytreehole.entity.Users;
 import io.github.lyxiangyu.mytreehole.service.UsersService;
-import io.github.lyxiangyu.mytreehole.service.UsersServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.List;
 
@@ -19,12 +15,10 @@ import java.util.List;
 @RequestMapping("/users")
 @SessionAttributes("users")
 public class UsersController {
-    @Autowired
-    private UsersDaoImpl usersRepository;
+
     @Autowired
     private UsersService usersService;
-    @Autowired
-    private UsersServiceImpl usersServiceImpl;
+
 
     // 显示登录页面
     @GetMapping("/login")
@@ -43,17 +37,22 @@ public class UsersController {
         return "mine"; // 返回 mine.html 页面
     }
 
-    // 登录请求处理
     @PostMapping("/login")
     public String login(@RequestParam String nickName, @RequestParam String passwordHash, HttpSession session, Model model) {
         if (usersService.validateUser(nickName, passwordHash)) {
-            session.setAttribute("user", nickName);  // 将用户信息存入 session
-            model.addAttribute("user", nickName);  // 同步到 model 中，@SessionAttributes 会自动管理
+            session.setAttribute("users", nickName);  // 将用户信息存入 session
+            model.addAttribute("users", nickName);  // 同步到 model 中，@SessionAttributes 会自动管理
             return "redirect:/index"; // 登录成功后重定向到首页
         } else {
             model.addAttribute("error", "密码或者账号不存在"); // 登录失败，加入错误信息
             return "login"; // 返回到 login.html 页面
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(SessionStatus sessionStatus) {
+        sessionStatus.setComplete();  // 清除 session 中的用户信息
+        return "redirect:/index";  // 注销后跳转到登录页面
     }
 
     @PostMapping("/add")
