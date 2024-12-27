@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>查询结果</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.22/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../static/css/index.css">
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+<!-- 顶栏 -->
+<nav class="navbar fixed left-0 right-0 backdrop-blur shadow-xl rounded-lg mx-auto max-w-screen-2xl w-full z-50">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-xl">TreeHole</a>
+  </div>
+  <div class="flex-none gap-2">
+    <div class="form-control">
+      <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+    </div>
+    <div>
+      <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+          <li><a class="btn btn-primary mx-5">登录</a></li>
+          <li><a class="btn btn-accent">注册</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- 广告部分 -->
+<div class="card mt-8 mx-auto w-full max-w-screen-lg bg-base-200 rounded-lg flex items-center justify-center">
+  <div class="card-body text-center">
+    <div class="artboard artboard-horizontal bg-base-300 phone-4 flex items-center justify-center rounded-lg">
+      <h2 class="font-bold">广告招租中</h2>
+    </div>
+  </div>
+</div>
+<!-- 内容部分 -->
+<div class="mt-4 max-w-screen-xl w-full m-auto">
+  <div class="flex w-full flex-col items-center">
+    <!-- Divider 部分 -->
+    <div class="divider divider-neutral w-full text-center">找到以下结果</div>
+    <div class="max-w-screen-lg w-full m-auto">
+      <div class="card bg-base-200 max-w-screen-lg w-full mt-5 ">
+        <div class="card-body">
+          <h2 class="card-title">Card title!</h2>
+          <p>If a dog chews shoes whose shoes does he choose?</p>
+        </div>
+        <details class="collapse bg-base-200">
+          <summary class="collapse-title text-xl font-medium">Click to open/close</summary>
+          <div class="collapse-content">
+            <div>
+              <ul class="menu bg-base-200 rounded-box w-full">
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+              </ul>
+            </div>
+            <div>
+              <div class="divider divider-neutral w-full text-center">开始你的评论</div>
+              <textarea class="textarea max-w-screen-lg" placeholder="Bio"></textarea>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="max-w-screen-lg w-full m-auto">
+      <div class="card bg-base-200 max-w-screen-lg w-full mt-5">
+        <div class="card-body">
+          <h2 class="card-title">Card title!</h2>
+          <p>If a dog chews shoes whose shoes does he choose?</p>
+        </div>
+        <details class="collapse bg-base-200">
+          <summary class="collapse-title text-xl font-medium">Click to open/close</summary>
+          <div class="collapse-content">
+            <div>
+              <ul class="menu bg-base-200 rounded-box w-full">
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+              </ul>
+            </div>
+            <div>
+              <div class="divider divider-neutral w-full text-center">开始你的评论</div>
+              <textarea class="textarea max-w-screen-lg" placeholder="Bio"></textarea>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="divider divider-neutral w-full text-center">到底了，别看了</div>
+  </div>
+</div>
+</body>
+</html>
