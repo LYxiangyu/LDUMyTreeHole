@@ -65,4 +65,21 @@ public class UsersDaoImpl implements UsersDao {
             return null;
         }
     };
+    @Override
+    public int countPostsByUserId(int userId) {
+        String sql = "SELECT COUNT(*) FROM Posts WHERE UserID = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+    }
+
+    @Override
+    public int countCommentsReceivedByUserId(int userId) {
+        String sql = "SELECT COUNT(*) FROM Comments WHERE PostID IN (SELECT PostID FROM Posts WHERE UserID = ?)";
+        return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+    }
+
+    @Override
+    public int countCommentsPostedByUserId(int userId) {
+        String sql = "SELECT COUNT(*) FROM Comments WHERE UserID = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+    }
 }

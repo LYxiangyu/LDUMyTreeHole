@@ -52,4 +52,21 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public List<Users> getUserByNickName(String nickName) {
         return usersDaoImpl.getUserByNickName(nickName); // 调用 Dao 层的方法获取数据
-}}
+}
+// 新增统计功能
+
+    /**
+     * 统计某个用户发布的帖子数量、收到的评论数量、发布的评论数量
+     * @param userId 用户ID
+     * @return 包含统计信息的字符串
+     */
+    public String getUserStatistics(int userId) {
+        int postCount = usersDaoImpl.countPostsByUserId(userId);
+        int receivedCommentsCount = usersDaoImpl.countCommentsReceivedByUserId(userId);
+        int postedCommentsCount = usersDaoImpl.countCommentsPostedByUserId(userId);
+
+        return String.format("用户发布了 %d 个帖子，收到 %d 个评论，发布了 %d 条评论。",
+                postCount, receivedCommentsCount, postedCommentsCount);
+    }
+
+}

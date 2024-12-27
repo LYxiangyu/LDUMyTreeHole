@@ -86,4 +86,10 @@ public class UsersController {
     public void updateUserPassword(@PathVariable int id, @RequestParam String passwordHash) {
         usersService.updateUserPassword(id, passwordHash);
     }
+    @GetMapping("/statistics/{id}")
+    public String getUserStatistics(@PathVariable int id, Model model) {
+        String statistics = usersService.getUserStatistics(id);
+        model.addAttribute("statistics", statistics);
+        return "userStatistics"; // 返回显示统计信息的页面
+    }
 }

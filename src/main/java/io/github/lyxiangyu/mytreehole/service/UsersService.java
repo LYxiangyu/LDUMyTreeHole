@@ -18,4 +18,5 @@ public interface UsersService {
 
     Boolean validateUser(String nickName, String passwordHash);
     List<Users> getUserByNickName(String nickName);
+    String getUserStatistics(int userId);
 }
