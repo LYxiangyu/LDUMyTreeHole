@@ -24,6 +24,11 @@ public class UsersController {
         return "/login"; // 返回 login.html 页面
     }
 
+    @GetMapping("/register")
+    public String showRegisterPage() {
+        return "/register"; // 返回 login.html 页面
+    }
+
     // 登录请求处理
     @PostMapping("/login")
     public String login(@RequestParam String nickName, @RequestParam String passwordHash, HttpSession session, Model model) {

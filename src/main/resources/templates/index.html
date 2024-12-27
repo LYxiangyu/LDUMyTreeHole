@@ -3,10 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>主页</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.22/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="../static/css/login.css" rel="stylesheet">
 </head>
 <body>
-
+<div class="navbar bg-base-100">
+    <div class="flex-1">
+        <a class="btn btn-ghost text-xl">TreeHole</a>
+    </div>
+    <div class="flex-none gap-2">
+        <div class="form-control">
+            <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+        </div>
+        <div>
+            <div class="flex-none">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a class="btn btn-primary mx-5">登录</a></li>
+                    <li><a class="btn btn-accent">注册</a></li>
+                </ul>
+        </div>
+    </div>
+</div>
 </body>
 </html>
