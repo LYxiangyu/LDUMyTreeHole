@@ -21,22 +21,43 @@
   </div>
   <div class="flex-none gap-2">
     <div class="form-control">
-      <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+      <form action="/search" method="GET" class="form-control flex items-center">
+        <label class="input input-bordered flex items-center gap-2">
+          <input type="text" name="content" class="grow" placeholder="Search" />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
+            <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+          </svg>
+        </label>
+      </form>
     </div>
     <div>
-      <div class="flex-none">
+      <div class="flex-none" >
         <ul class="menu menu-horizontal px-1">
-          <li><a class="btn btn-primary mx-5">登录</a></li>
-          <li><a class="btn btn-accent">注册</a></li>
+          <li th:if="${users == null}">
+            <a class="btn btn-primary mx-5" href="users/login">登录</a>
+          </li>
+          <li th:if="${users == null}">
+            <a class="btn btn-accent" href="users/register">注册</a>
+          </li>
+          <li th:if="${users != null}">
+            <a class="btn btn-accent mx-5" href="/users/mine">用户</a>
+          </li>
+          <li th:if="${users != null}">
+            <a class="btn btn-warning" href="/users/logout">退出</a>
+          </li>
+          <li th:if="${isAdmin != null}">
+            <a class="btn btn-error mx-5" href="/admin">你好管理员</a>
+          </li>
+
         </ul>
       </div>
     </div>
   </div>
 </nav>
 <!-- 广告部分 -->
-<div class="card mt-8 mx-auto w-full max-w-screen-lg bg-base-200 rounded-lg flex items-center justify-center">
+<div class="card mt-5 mx-auto w-full max-w-screen-lg backdrop-blur-md rounded-lg flex items-center justify-center">
   <div class="card-body text-center">
-    <div class="artboard artboard-horizontal bg-base-300 phone-4 flex items-center justify-center rounded-lg">
+    <div class="artboard artboard-horizontal backdrop-blur-xl phone-4 flex items-center justify-center rounded-lg">
       <h2 class="font-bold">广告招租中</h2>
     </div>
   </div>
@@ -48,52 +69,36 @@
     <div class="divider divider-neutral w-full text-center">找到以下结果</div>
     <div class="max-w-screen-lg w-full m-auto">
       <div class="card bg-base-200 max-w-screen-lg w-full mt-5 ">
-        <div class="card-body">
-          <h2 class="card-title">Card title!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
+        <div class="card-body" th:each="post : ${posts}">
+          <h2 class="card-title" th:text="${post.postId}">Card title!</h2>
+          <p th:text="${post.content}">Post content</p>
         </div>
-        <details class="collapse bg-base-200">
-          <summary class="collapse-title text-xl font-medium">Click to open/close</summary>
-          <div class="collapse-content">
-            <div>
-              <ul class="menu bg-base-200 rounded-box w-full">
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-              </ul>
-            </div>
-            <div>
-              <div class="divider divider-neutral w-full text-center">开始你的评论</div>
-              <textarea class="textarea max-w-screen-lg" placeholder="Bio"></textarea>
-            </div>
-          </div>
-        </details>
       </div>
     </div>
-    <div class="max-w-screen-lg w-full m-auto">
-      <div class="card bg-base-200 max-w-screen-lg w-full mt-5">
-        <div class="card-body">
-          <h2 class="card-title">Card title!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-        </div>
-        <details class="collapse bg-base-200">
-          <summary class="collapse-title text-xl font-medium">Click to open/close</summary>
-          <div class="collapse-content">
-            <div>
-              <ul class="menu bg-base-200 rounded-box w-full">
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
-              </ul>
-            </div>
-            <div>
-              <div class="divider divider-neutral w-full text-center">开始你的评论</div>
-              <textarea class="textarea max-w-screen-lg" placeholder="Bio"></textarea>
-            </div>
-          </div>
-        </details>
-      </div>
-    </div>
+<!--    <div class="max-w-screen-lg w-full m-auto">-->
+<!--      <div class="card bg-base-200 max-w-screen-lg w-full mt-5">-->
+<!--        <div class="card-body">-->
+<!--          <h2 class="card-title">Card title!</h2>-->
+<!--          <p>If a dog chews shoes whose shoes does he choose?</p>-->
+<!--        </div>-->
+<!--        <details class="collapse bg-base-200">-->
+<!--          <summary class="collapse-title text-xl font-medium">Click to open/close</summary>-->
+<!--          <div class="collapse-content">-->
+<!--            <div>-->
+<!--              <ul class="menu bg-base-200 rounded-box w-full">-->
+<!--                <li>Item 1</li>-->
+<!--                <li>Item 2</li>-->
+<!--                <li>Item 3</li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <div class="divider divider-neutral w-full text-center">开始你的评论</div>-->
+<!--              <textarea class="textarea max-w-screen-lg" placeholder="Bio"></textarea>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </details>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="divider divider-neutral w-full text-center">到底了，别看了</div>
   </div>
 </div>
