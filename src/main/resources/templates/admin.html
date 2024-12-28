@@ -129,69 +129,45 @@
     <!-- 动态插入帖子和评论 -->
   </div>
 
-  <div class="pagination mt-5 flex justify-center">
-    <button id="prev-page" class="btn btn-primary mx-2">上一页</button>
-    <span id="current-page" class="mx-2">1</span>
-    <button id="next-page" class="btn btn-primary mx-2">下一页</button>
+  <div>
+    <ul class="menu bg-base-200 rounded-box fixed right-40 bottom-20 flex flex-col items-center shadow-lg">
+      <!-- 上一页按钮 -->
+      <li>
+        <a id="prev-page" class="tooltip tooltip-right" data-tip="上一页">
+          <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+          </svg>
+        </a>
+      </li>
+
+      <!-- 当前页码 -->
+      <li>
+        <a class="tooltip tooltip-right" data-tip="当前页">
+          <span id="current-page" class="text-lg font-bold">1</span>
+        </a>
+      </li>
+
+      <!-- 下一页按钮 -->
+      <li>
+        <a id="next-page" class="tooltip tooltip-right" data-tip="下一页">
+          <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
+      </li>
+    </ul>
   </div>
 
-  <!-- 帖子和评论区域 -->
-<!--  <div class="flex-1">-->
-<!--    <div class="flex w-full flex-col items-center">-->
-<!--      &lt;!&ndash; Divider 部分 &ndash;&gt;-->
-<!--      <div class="divider divider-neutral w-full text-center">全站 · 评论和帖子</div>-->
-<!--      <div class="max-w-screen-lg w-full">-->
-<!--        <div class="collapse bg-base-200">-->
-<!--          <input type="radio" name="my-accordion-1" />-->
-<!--          <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>-->
-<!--          <div class="collapse-content">-->
-<!--            <button class="btn btn-error">删除</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="collapse bg-base-200">-->
-<!--          <input type="radio" name="my-accordion-1" />-->
-<!--          <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>-->
-<!--          <div class="collapse-content">-->
-<!--            <button class="btn btn-error">删除</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="collapse bg-base-200">-->
-<!--          <input type="radio" name="my-accordion-1" />-->
-<!--          <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>-->
-<!--          <div class="collapse-content">-->
-<!--            <button class="btn btn-error">删除</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  &lt;!&ndash; 菜单区域 &ndash;&gt;-->
-<!--  <div class="w-16 bg-base-200 rounded-lg p-4 flex flex-col items-center shadow-md fixed right-40 bottom-16">-->
-<!--    <ul class="menu">-->
-<!--      <li>-->
-<!--        <a class="tooltip tooltip-right mb-5" data-tip="用户1">-->
-<!--          <div class="flex flex-col items-center">-->
-<!--            1-->
-<!--          </div>-->
-<!--        </a>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        <a class="tooltip tooltip-right mb-5" data-tip="用户2">-->
-<!--          <div class="flex flex-col items-center">-->
-<!--            2-->
-<!--          </div>-->
-<!--        </a>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        <a class="tooltip tooltip-right" data-tip="用户3">-->
-<!--          <div class="flex flex-col items-center">-->
-<!--            3-->
-<!--          </div>-->
-<!--        </a>-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--  </div>-->
 </div>
 <script>
   let currentPage = 1; // 当前页码
@@ -236,8 +212,23 @@
               document.getElementById("current-page").textContent = page;
               currentPage = page;
 
-              document.getElementById("prev-page").disabled = currentPage === 1;
-              document.getElementById("next-page").disabled = currentPage === data.totalUsers;
+              // 按钮状态更新
+              // 按钮状态更新
+              const prevPageLi = document.querySelector("#prev-page").parentElement; // 获取上一页按钮的父级 li
+              const nextPageLi = document.querySelector("#next-page").parentElement; // 获取下一页按钮的父级 li
+
+              // 更新按钮状态
+              if (currentPage === 1) {
+                prevPageLi.classList.add("disabled");
+              } else {
+                prevPageLi.classList.remove("disabled");
+              }
+
+              if (currentPage === data.totalUsers) {
+                nextPageLi.classList.add("disabled");
+              } else {
+                nextPageLi.classList.remove("disabled");
+              }
             })
             .catch(error => console.error("数据加载失败：", error));
   }
