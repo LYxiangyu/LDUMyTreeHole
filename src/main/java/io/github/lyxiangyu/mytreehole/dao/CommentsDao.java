@@ -8,6 +8,7 @@ public interface CommentsDao {
 
     void addComment(Integer postId, Integer userId, String comment);
     void deleteComment(Integer commentId);
+    void deleteCommentsByPostId(int postId);
     List<Comments> getAllComments();  // 获取所有评论
     List<Comments> getCommentsByPostId(Integer postId);  // 根据帖子ID获取评论
 }
