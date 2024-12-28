@@ -6,131 +6,140 @@
   <title>管理</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.22/dist/full.min.css" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bg-cover-full {
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-<!-- 顶栏 -->
-<nav class="navbar fixed left-0 right-0 backdrop-blur shadow-xl rounded-lg mx-auto max-w-screen-2xl w-full z-50">
-  <div class="flex-1">
-    <a class="btn btn-ghost text-xl">TreeHole</a>
-  </div>
-  <div class="flex-none gap-2">
-    <div class="form-control">
-      <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+<div class="bg-cover-full" th:style="'background-image: url(/pictures/admin.jpg)'">
+  <!-- 顶栏 -->
+  <nav class="navbar fixed left-0 right-0 backdrop-blur shadow-xl rounded-lg mx-auto max-w-screen-2xl w-full z-50">
+    <div class="flex-1">
+      <a class="btn btn-ghost text-xl">TreeHole</a>
     </div>
-    <div>
-      <div class="flex-none">
-        <ul class="menu menu-horizontal px-1">
-          <li th:if="${users == null}">
-            <a class="btn btn-primary mx-5" href="users/login">登录</a>
-          </li>
-          <li th:if="${users == null}">
-            <a class="btn btn-accent" href="users/register">注册</a>
-          </li>
-          <li th:if="${users != null}">
-            <a class="btn btn-accent mx-5" href="/users/mine">用户</a>
-          </li>
-          <li th:if="${users != null}">
-            <a class="btn btn-warning" href="/users/logout">退出</a>
-          </li>
-          <li th:if="${isAdmin != null}">
-            <a class="btn btn-error mx-5" href="/admin">你好管理员</a>
-          </li>
-        </ul>
+    <div class="flex-none gap-2">
+      <div class="form-control">
+        <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+      </div>
+      <div>
+        <div class="flex-none">
+          <ul class="menu menu-horizontal px-1">
+            <li th:if="${users == null}">
+              <a class="btn btn-primary mx-5" href="users/login">登录</a>
+            </li>
+            <li th:if="${users == null}">
+              <a class="btn btn-accent" href="users/register">注册</a>
+            </li>
+            <li th:if="${users != null}">
+              <a class="btn btn-accent mx-5" href="/users/mine">用户</a>
+            </li>
+            <li th:if="${users != null}">
+              <a class="btn btn-warning" href="/users/logout">退出</a>
+            </li>
+            <li th:if="${isAdmin != null}">
+              <a class="btn btn-error mx-5" href="/admin">你好管理员</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- 主内容 -->
-<div class="max-w-screen-xl w-full m-auto pt-32">
-  <div class="card bg-base-200 max-w-screen-lg w-full p-5 relative shadow-xl rounded-lg mx-auto">
-    <div class="card-body">
-      <h2 class="card-title">树洞管理</h2>
-      <p>以下是当前站点信息</p>
-      <div class="mt-3">
-        <div class="stats shadow">
-          <div class="stat">
-            <div class="stat-figure text-secondary">
-              <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      class="inline-block h-8 w-8 stroke-current">
-                <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
+  <!-- 主内容 -->
+  <div class="max-w-screen-xl w-full m-auto pt-32">
+    <div class="card glass max-w-screen-lg w-full p-5 relative shadow-xl rounded-lg mx-auto">
+      <div class="card-body">
+        <h2 class="card-title">树洞管理</h2>
+        <p>以下是当前站点信息</p>
+        <div class="mt-3">
+          <div class="stats shadow">
+            <div class="stat">
+              <div class="stat-figure text-secondary">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        class="inline-block h-8 w-8 stroke-current">
+                  <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <div class="stat-title">用户数量</div>
+              <div id="user-count" class="stat-value">0</div>
+              <div class="stat-desc">人也没多少</div>
             </div>
-            <div class="stat-title">用户数量</div>
-            <div id="user-count" class="stat-value">0</div>
-            <div class="stat-desc">人也没多少</div>
-          </div>
 
-          <div class="stat">
-            <div class="stat-figure text-secondary">
-              <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      class="inline-block h-8 w-8 stroke-current">
-                <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-              </svg>
+            <div class="stat">
+              <div class="stat-figure text-secondary">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        class="inline-block h-8 w-8 stroke-current">
+                  <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                </svg>
+              </div>
+              <div class="stat-title">帖子数量</div>
+              <div id="post-count" class="stat-value">0</div>
+              <div class="stat-desc">这么能讲</div>
             </div>
-            <div class="stat-title">帖子数量</div>
-            <div id="post-count" class="stat-value">0</div>
-            <div class="stat-desc">这么能讲</div>
-          </div>
 
-          <div class="stat">
-            <div class="stat-figure text-secondary">
-              <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      class="inline-block h-8 w-8 stroke-current">
-                <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
-              </svg>
+            <div class="stat">
+              <div class="stat-figure text-secondary">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        class="inline-block h-8 w-8 stroke-current">
+                  <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                </svg>
+              </div>
+              <div class="stat-title">评论数量</div>
+              <div id="comment-count" class="stat-value">0</div>
+              <div class="stat-desc">↘这还能喷</div>
             </div>
-            <div class="stat-title">评论数量</div>
-            <div id="comment-count" class="stat-value">0</div>
-            <div class="stat-desc">↘这还能喷</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    fetch("/admin/stats")
-            .then((response) => response.json())
-            .then((data) => {
-              document.getElementById("user-count").textContent = data.userCount;
-              document.getElementById("post-count").textContent = data.postCount;
-              document.getElementById("comment-count").textContent = data.commentCount;
-            })
-            .catch((error) => console.error("统计数据加载失败:", error));
-  });
-</script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("/admin/stats")
+              .then((response) => response.json())
+              .then((data) => {
+                document.getElementById("user-count").textContent = data.userCount;
+                document.getElementById("post-count").textContent = data.postCount;
+                document.getElementById("comment-count").textContent = data.commentCount;
+              })
+              .catch((error) => console.error("统计数据加载失败:", error));
+    });
+  </script>
 
-<!-- 内容和菜单布局 -->
-<div class="flex max-w-screen-xl w-full m-auto mt-5">
-  <div class="max-w-screen-lg w-full" id="post-comment-container">
-    <!-- 动态插入帖子和评论 -->
+  <!-- 内容和菜单布局 -->
+  <div class="flex max-w-screen-xl w-full m-auto mt-5">
+    <div class="max-w-screen-lg m-auto w-full" id="post-comment-container">
+      <!-- 动态插入帖子和评论 -->
+    </div>
   </div>
-
   <div>
-    <ul class="menu bg-base-200 rounded-box fixed right-40 bottom-20 flex flex-col items-center shadow-lg">
+    <ul class="menu backdrop-blur rounded-box fixed right-40 bottom-20 flex flex-col items-center shadow-lg">
       <!-- 上一页按钮 -->
       <li>
         <a id="prev-page" class="tooltip tooltip-right" data-tip="上一页">
@@ -167,114 +176,113 @@
       </li>
     </ul>
   </div>
+  <script>
+    let currentPage = 1; // 当前页码
+    let totalUsers = 0;
+    // 加载数据
+    function fetchData(page) {
+      fetch(`/admin/posts-comments?userId=${page}`)
+              .then(response => response.json())
+              .then(data => {
+                const container = document.getElementById("post-comment-container");
+                container.innerHTML = ""; // 清空旧数据
 
-</div>
-<script>
-  let currentPage = 1; // 当前页码
-
-  // 加载数据
-  function fetchData(page) {
-    fetch(`/admin/posts-comments?userId=${page}`)
-            .then(response => response.json())
-            .then(data => {
-              const container = document.getElementById("post-comment-container");
-              container.innerHTML = ""; // 清空旧数据
-
-              // 动态生成帖子及其评论
-              data.data.forEach(post => {
-                const postHtml = `
-          <div class="collapse bg-base-200 my-4">
+                // 动态生成帖子及其评论
+                data.data.forEach(post => {
+                  const postHtml = `
+          <div class="collapse backdrop-blur my-4">
             <input type="checkbox" />
             <div class="collapse-title text-xl font-medium">帖子：${post.PostContent}</div>
             <div class="collapse-content">
               ${
-                        post.comments.length > 0
-                                ? post.comments
-                                        .map(
-                                                comment => `
+                          post.comments.length > 0
+                                  ? post.comments
+                                          .map(
+                                                  comment => `
                 <div class="bg-base-100 p-2 my-2 rounded flex justify-between items-center">
                   <span>评论：${comment.CommentContent}</span>
                   <button class="btn btn-error btn-sm" onclick="deleteComment(${comment.CommentID})">删除评论</button>
                 </div>
               `
-                                        )
-                                        .join("")
-                                : '<p>暂无评论</p>'
-                }
+                                          )
+                                          .join("")
+                                  : '<p>暂无评论</p>'
+                  }
               <button class="btn btn-error mt-3" onclick="deletePost(${post.PostID})">删除帖子</button>
             </div>
           </div>
         `;
-                container.insertAdjacentHTML("beforeend", postHtml);
-              });
+                  container.insertAdjacentHTML("beforeend", postHtml);
+                });
 
-              // 更新分页状态
-              document.getElementById("current-page").textContent = page;
-              currentPage = page;
+                // 更新分页状态
+                document.getElementById("current-page").textContent = page;
+                currentPage = page;
 
-              // 按钮状态更新
-              // 按钮状态更新
-              const prevPageLi = document.querySelector("#prev-page").parentElement; // 获取上一页按钮的父级 li
-              const nextPageLi = document.querySelector("#next-page").parentElement; // 获取下一页按钮的父级 li
+                // 按钮状态更新
+                const prevPageLi = document.querySelector("#prev-page").parentElement; // 获取上一页按钮的父级 li
+                const nextPageLi = document.querySelector("#next-page").parentElement; // 获取下一页按钮的父级 li
+                totalUsers = data.totalUsers;
+                // 更新按钮状态
+                if (currentPage === 1) {
+                  prevPageLi.classList.add("disabled");
+                } else {
+                  prevPageLi.classList.remove("disabled");
+                }
 
-              // 更新按钮状态
-              if (currentPage === 1) {
-                prevPageLi.classList.add("disabled");
-              } else {
-                prevPageLi.classList.remove("disabled");
-              }
+                if (currentPage === data.totalUsers) {
+                  nextPageLi.classList.add("disabled");
+                } else {
+                  nextPageLi.classList.remove("disabled");
+                }
+              })
+              .catch(error => console.error("数据加载失败：", error));
+    }
 
-              if (currentPage === data.totalUsers) {
-                nextPageLi.classList.add("disabled");
-              } else {
-                nextPageLi.classList.remove("disabled");
-              }
-            })
-            .catch(error => console.error("数据加载失败：", error));
-  }
+    // 删除帖子
+    function deletePost(postId) {
+      fetch(`/admin/posts/${postId}`, { method: "DELETE" })
+              .then(response => {
+                if (response.ok) {
+                  console.log("帖子已删除");
+                  fetchData(currentPage); // 重新加载当前页数据
+                } else {
+                  alert("删除帖子失败");
+                }
+              })
+              .catch(error => console.error("删除帖子失败：", error));
+    }
 
-  // 删除帖子
-  function deletePost(postId) {
-    fetch(`/admin/posts/${postId}`, { method: "DELETE" })
-            .then(response => {
-              if (response.ok) {
-                alert("帖子已删除");
-                fetchData(currentPage); // 重新加载当前页数据
-              } else {
-                alert("删除帖子失败");
-              }
-            })
-            .catch(error => console.error("删除帖子失败：", error));
-  }
+    // 删除评论
+    function deleteComment(commentId) {
+      fetch(`/admin/comments/${commentId}`, { method: "DELETE" })
+              .then(response => {
+                if (response.ok) {
+                  console.log("评论已删除");
+                  fetchData(currentPage); // 重新加载当前页数据
+                } else {
+                  alert("删除评论失败");
+                }
+              })
+              .catch(error => console.error("删除评论失败：", error));
+    }
 
-  // 删除评论
-  function deleteComment(commentId) {
-    fetch(`/admin/comments/${commentId}`, { method: "DELETE" })
-            .then(response => {
-              if (response.ok) {
-                alert("评论已删除");
-                fetchData(currentPage); // 重新加载当前页数据
-              } else {
-                alert("删除评论失败");
-              }
-            })
-            .catch(error => console.error("删除评论失败：", error));
-  }
+    // 上一页按钮
+    document.getElementById("prev-page").addEventListener("click", () => {
+      if (currentPage > 1) fetchData(currentPage - 1);
+    });
 
-  // 上一页按钮
-  document.getElementById("prev-page").addEventListener("click", () => {
-    if (currentPage > 1) fetchData(currentPage - 1);
-  });
+    // 下一页按钮
+    document.getElementById("next-page").addEventListener("click", () => {
+      if (currentPage<totalUsers) fetchData(currentPage + 1);
+    });
 
-  // 下一页按钮
-  document.getElementById("next-page").addEventListener("click", () => {
-    fetchData(currentPage + 1);
-  });
+    // 初次加载第一页数据
+    fetchData(currentPage);
 
-  // 初次加载第一页数据
-  fetchData(currentPage);
+  </script>
+</div>
 
-</script>
 
 </body>
 </html>
