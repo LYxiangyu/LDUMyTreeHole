@@ -6,14 +6,35 @@
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.22/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../static/css/index.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
     html, body {
       height: 100%;
       width: 100%;
     }
+    /* 设置初始的textarea最小高度，减小初始大小 */
+    .auto-expand {
+      /*min-height: 40px;  !* 设置评论框初始高度为40px *!*/
+      resize: none; /* 禁止手动调整大小 */
+      overflow-y: hidden; /* 隐藏垂直滚动条 */
+    }
+    /* 增强帖子内容框的样式 */
+    .post-content {
+      background: #f9fafb; /* 设置背景色为淡灰色 */
+      padding: 20px;  /* 增加内边距 */
+      border-radius: 10px;  /* 圆角 */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* 阴影 */
+      transition: all 0.3s ease;  /* 添加过渡效果 */
+      font-size: 1.2rem; /* 增加字体大小，突出帖子内容 */
+      max-width: 100%;  /* 使内容框宽度占满父容器 */
+    }
+    .post-content:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);  /* 鼠标悬停时加深阴影 */
+    }
   </style>
 </head>
 <body>
+<div class=" bg-cover bg-center" th:style="'background-image: url(/pictures/index.jpg)'">
 <!-- 顶栏 -->
 <nav class="navbar fixed left-0 right-0 backdrop-blur shadow-xl rounded-lg mx-auto max-w-screen-2xl w-full z-50">
   <div class="flex-1">
@@ -63,18 +84,24 @@
   </div>
 </div>
 <!-- 内容部分 -->
-<div class="mt-4 max-w-screen-xl w-full m-auto">
-  <div class="flex w-full flex-col items-center">
-    <!-- Divider 部分 -->
-    <div class="divider divider-neutral w-full text-center">找到以下结果</div>
-    <div class="max-w-screen-lg w-full m-auto">
-      <div class="card bg-base-200 max-w-screen-lg w-full mt-5 ">
+  <div class="mt-4 max-w-screen-xl w-full m-auto">
+    <div class="flex w-full flex-col items-center">
+      <!-- Divider 部分 -->
+      <div class="divider  w-full text-center">找到以下结果</div>
+
+      <div id="posts-container" class="max-w-screen-lg w-full m-auto">
+        <div class="card glass max-w-screen-lg w-full mt-5 ">
         <div class="card-body" th:each="post : ${posts}">
-          <h2 class="card-title" th:text="${post.postId}">Card title!</h2>
-          <p th:text="${post.content}">Post content</p>
+          <h2 class="card-title" th:text="'UserID:'+${post.userId}">User ID</h2>
+          <div class="post-content">
+            <p th:text="${post.content}">Post content</p>
+          </div>
+        </div>
         </div>
       </div>
+      <div class="divider  w-full text-center">到底了，别看了</div>
     </div>
+  </div>
 <!--    <div class="max-w-screen-lg w-full m-auto">-->
 <!--      <div class="card bg-base-200 max-w-screen-lg w-full mt-5">-->
 <!--        <div class="card-body">-->
@@ -99,8 +126,6 @@
 <!--        </details>-->
 <!--      </div>-->
 <!--    </div>-->
-    <div class="divider divider-neutral w-full text-center">到底了，别看了</div>
   </div>
-</div>
 </body>
 </html>

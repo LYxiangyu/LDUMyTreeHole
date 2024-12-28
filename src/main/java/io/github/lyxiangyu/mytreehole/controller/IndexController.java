@@ -45,6 +45,7 @@ public class IndexController {
     @GetMapping("/search")
     public String getPostsByContent(@RequestParam String content, Model model) {
         List<Posts> posts = postsService.getPostsByContent(content);
+
         // 将搜索结果传递到 search.html 页面
         model.addAttribute("posts", posts);
         model.addAttribute("searchContent", content);  // 传递搜索的关键词，方便在页面显示
