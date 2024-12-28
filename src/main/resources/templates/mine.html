@@ -71,7 +71,7 @@
                             </svg>
                         </div>
                         <div class="stat-title">帖子数</div>
-                        <div class="stat-value">0</div>
+                        <div class="stat-value" id="post-count">0</div>
                         <div class="stat-desc">感谢您的分享</div>
                     </div>
 
@@ -90,7 +90,7 @@
                             </svg>
                         </div>
                         <div class="stat-title">评论数</div>
-                        <div class="stat-value">0</div>
+                        <div class="stat-value" id="comment-count">0</div>
                         <div class="stat-desc">感谢您的疯狂</div>
                     </div>
 
@@ -109,11 +109,28 @@
                             </svg>
                         </div>
                         <div class="stat-title">被评论数</div>
-                        <div class="stat-value">0</div>
+                        <div class="stat-value" id="comments-on-posts-count">0</div>
                         <div class="stat-desc">啊？不要啊！</div>
                     </div>
                 </div>
             </div>
+            <script th:inline="javascript">
+                const users = /*[[${users != null ? "'" + users + "'" : null}]]*/ null;
+                document.addEventListener("DOMContentLoaded", function () {
+                    let username = users.replace(/^'(.*)'$/, '$1');
+
+                    fetch(`/posts/stats?username=${username}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // 确保正确选择 DOM 元素
+                            document.getElementById("post-count").textContent = data.postCount || 0;
+                            document.getElementById("comment-count").textContent = data.commentCount || 0;
+                            document.getElementById("comments-on-posts-count").textContent = data.commentsOnPostsCount || 0;
+                        })
+                        .catch(error => console.error("统计数据加载失败:", error));
+                });
+
+            </script>
             <div class="flex items-center gap-4 mt-5">
                 <!-- Email 输入框 -->
                 <label class="input input-bordered flex items-center gap-2 grow">
@@ -153,13 +170,64 @@
                                 d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
                                 clip-rule="evenodd" />
                     </svg>
-                    <input type="password" class="grow" value="password" />
+                    <input type="password" class="grow" value=""/>
                 </label>
             </div>
             <div class="mt-6">
                 <!-- 修改按钮 -->
                 <button class="btn btn-primary absolute right-5 bottom-5">修改</button>
+                <script>
+
+                    document.querySelector(".btn-primary").addEventListener("click", function () {
+                        const email = document.querySelector("input[placeholder='Email']").value;
+                        const nickname = document.querySelector("input[placeholder='Username']").value;
+                        const password = document.querySelector("input[type='password']").value;
+
+                        const userInfo = {
+                            userId: userId,
+                            email: email,
+                            nickName: nickname,
+                            // 假设 UserID 是从后端注入的隐藏字段
+                            passwordHash: password
+                        };
+
+                        // 更新用户信息
+                        fetch("/posts/update", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(userInfo)
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    alert("用户信息更新成功");
+                                } else {
+                                    alert("用户信息更新失败");
+                                }
+                            })
+                            .catch(error => console.error("更新用户信息失败:", error));
+                    });
+                </script>
             </div>
+            <script th:inline="javascript">
+                let userId = 0;
+                document.addEventListener("DOMContentLoaded", function () {
+                    const username = users.replace(/^'(.*)'$/, '$1'); // 假设用户名从后端注入
+
+                    // 获取用户信息
+                    fetch(`/posts/info?username=${username}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data) {
+                                document.querySelector("input[placeholder='Email']").value = data.email;
+                                document.querySelector("input[placeholder='Username']").value = data.nickName;
+                                document.querySelector("input[type='Password']").value = data.passwordHash;
+                                userId = data.userId;
+                                console.log(userId);
+                            }
+                        })
+                        .catch(error => console.error("加载用户信息失败:", error));
+                });
+            </script>
         </div>
     </div>
 </div>
@@ -171,7 +239,6 @@
             <input type="radio" name="my-accordion-1" />
             <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
             <div class="collapse-content">
-                <button class="btn btn-warning">修改</button>
                 <button class="btn btn-error">删除</button>
             </div>
         </div>
@@ -179,7 +246,6 @@
             <input type="radio" name="my-accordion-1" />
             <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
             <div class="collapse-content">
-                <button class="btn btn-warning">修改</button>
                 <button class="btn btn-error">删除</button>
             </div>
         </div>
@@ -187,7 +253,6 @@
             <input type="radio" name="my-accordion-1" />
             <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
             <div class="collapse-content">
-                <button class="btn btn-warning">修改</button>
                 <button class="btn btn-error">删除</button>
             </div>
         </div>

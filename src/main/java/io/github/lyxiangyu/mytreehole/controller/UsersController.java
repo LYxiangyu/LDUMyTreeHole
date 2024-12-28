@@ -85,17 +85,7 @@ public class UsersController {
         return "redirect:/users/login";  // 注册成功后重定向到登录页面
     }
 
-    @GetMapping("/statistics/{id}")
-    public String getUserStatistics(@PathVariable int id, Model model) {
-        // 获取用户的统计信息
-        String statistics = usersService.getUserStatistics(id);
 
-        // 将统计信息传递到 model
-        model.addAttribute("statistics", statistics);
-
-        // 返回 mine 页面
-        return "mine"; // 视图文件 mine.html
-    }
 
 
     @DeleteMapping("/delete/{id}")

@@ -5,7 +5,9 @@ import io.github.lyxiangyu.mytreehole.dao.UsersDaoImpl;
 import io.github.lyxiangyu.mytreehole.entity.Users;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -55,18 +57,21 @@ public class UsersServiceImpl implements UsersService {
     }
 // 新增统计功能
 
-    /**
-     * 统计某个用户发布的帖子数量、收到的评论数量、发布的评论数量
-     * @param userId 用户ID
-     * @return 包含统计信息的字符串
-     */
-    public String getUserStatistics(int userId) {
-        int postCount = usersDaoImpl.countPostsByUserId(userId);
-        int receivedCommentsCount = usersDaoImpl.countCommentsReceivedByUserId(userId);
-        int postedCommentsCount = usersDaoImpl.countCommentsPostedByUserId(userId);
-
-        return String.format("用户发布了 %d 个帖子，收到 %d 个评论，发布了 %d 条评论。",
-                postCount, receivedCommentsCount, postedCommentsCount);
+    @Override
+    public Map<String, Integer> getUserStats(int userId) {
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("postCount", usersDao.countPostsByUserId(userId));
+        stats.put("commentCount", usersDao.countCommentsByUserId(userId));
+        stats.put("commentsOnPostsCount", usersDao.countCommentsOnUserPosts(userId));
+        return stats;
+    }
+    @Override
+    public Users getUserInfo(String username) {
+        return usersDao.findByUsername(username);
     }
 
+    @Override
+    public boolean updateUserInfo(Users userDTO) {
+        return usersDao.updateUser(userDTO) > 0;
+    }
 }

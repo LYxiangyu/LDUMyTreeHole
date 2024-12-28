@@ -3,6 +3,7 @@ package io.github.lyxiangyu.mytreehole.dao;
 import io.github.lyxiangyu.mytreehole.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -72,14 +73,34 @@ public class UsersDaoImpl implements UsersDao {
     }
 
     @Override
-    public int countCommentsReceivedByUserId(int userId) {
-        String sql = "SELECT COUNT(*) FROM Comments WHERE PostID IN (SELECT PostID FROM Posts WHERE UserID = ?)";
+    public int countCommentsOnUserPosts(int userId) {
+        String sql = """
+            SELECT COUNT(*)
+            FROM comments c
+            JOIN posts p ON c.PostID = p.PostID
+            WHERE p.UserID = ?
+        """;
         return jdbcTemplate.queryForObject(sql, Integer.class, userId);
     }
 
     @Override
-    public int countCommentsPostedByUserId(int userId) {
-        String sql = "SELECT COUNT(*) FROM Comments WHERE UserID = ?";
+    public int countCommentsByUserId(int userId) {
+        String sql = "SELECT COUNT(*) FROM comments WHERE UserID = ?";
         return jdbcTemplate.queryForObject(sql, Integer.class, userId);
+    }
+    @Override
+    public Users findByUsername(String username) {
+        String sql = "SELECT UserID, Nickname, Email FROM users WHERE Nickname = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Users.class), username);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public int updateUser(Users userDTO) {
+        String sql = "UPDATE users SET Email = ?, Nickname = ?, PasswordHash = ? WHERE UserID = ?";
+        return jdbcTemplate.update(sql, userDTO.getEmail(), userDTO.getNickName(), userDTO.getPasswordHash(), userDTO.getUserId());
     }
 }

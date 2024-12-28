@@ -2,14 +2,19 @@ package io.github.lyxiangyu.mytreehole.controller;
 
 import io.github.lyxiangyu.mytreehole.entity.Comments;
 import io.github.lyxiangyu.mytreehole.entity.Posts;
+import io.github.lyxiangyu.mytreehole.entity.Users;
 import io.github.lyxiangyu.mytreehole.service.CommentsService;
 import io.github.lyxiangyu.mytreehole.service.PostsService;
+import io.github.lyxiangyu.mytreehole.service.UsersService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/posts")
@@ -46,7 +51,40 @@ public class PostsController {
         postsService.addPost(userId, content);
         return ResponseEntity.ok("帖子添加成功");
     }
+    @Autowired
+    private UsersService usersService;
 
+    @GetMapping("/stats")
+    public ResponseEntity<Map<String, Integer>> getUserStats(@RequestParam String username) {
+        // 假设通过用户名获取 UserID 的方法已经实现
+        Integer userId = postsService.getUserIdByUsername(username);
+        if (userId == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        Map<String, Integer> stats = usersService.getUserStats(userId);
+        return ResponseEntity.ok(stats);
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<Users> getUserInfo(@RequestParam String username) {
+        Users user = usersService.getUserInfo(username);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    // 修改用户信息
+    @PostMapping("/update")
+    public ResponseEntity<String> updateUserInfo(@RequestBody Users userDTO) {
+        System.out.println(userDTO);
+        boolean success = usersService.updateUserInfo(userDTO);
+        if (success) {
+            return ResponseEntity.ok("用户信息更新成功");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("用户信息更新失败");
+        }
+    }
     // 删除帖子
     @DeleteMapping("/delete/{postId}")
     public void deletePost(@PathVariable Integer postId) {

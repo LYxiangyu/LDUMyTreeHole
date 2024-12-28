@@ -3,6 +3,7 @@ package io.github.lyxiangyu.mytreehole.service;
 import io.github.lyxiangyu.mytreehole.entity.Users;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UsersService {
 
@@ -18,5 +19,7 @@ public interface UsersService {
 
     Boolean validateUser(String nickName, String passwordHash);
     List<Users> getUserByNickName(String nickName);
-    String getUserStatistics(int userId);
+    Map<String, Integer> getUserStats(int userId);
+    Users getUserInfo(String username);
+    boolean updateUserInfo(Users userDTO);
 }
