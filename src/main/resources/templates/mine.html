@@ -235,28 +235,79 @@
     <div class="flex w-full flex-col items-center">
         <!-- Divider 部分 -->
         <div class="divider divider-neutral w-full text-center">评论和帖子</div>
-        <div class="collapse bg-base-200">
-            <input type="radio" name="my-accordion-1" />
-            <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
-            <div class="collapse-content">
-                <button class="btn btn-error">删除</button>
-            </div>
-        </div>
-        <div class="collapse bg-base-200">
-            <input type="radio" name="my-accordion-1" />
-            <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
-            <div class="collapse-content">
-                <button class="btn btn-error">删除</button>
-            </div>
-        </div>
-        <div class="collapse bg-base-200">
-            <input type="radio" name="my-accordion-1" />
-            <div class="collapse-title text-xl font-medium">Click to open this one and close others</div>
-            <div class="collapse-content">
-                <button class="btn btn-error">删除</button>
-            </div>
+        <div class="max-w-screen-lg m-auto w-full" id="post-comment-container">
+            <!-- 动态插入帖子和评论 -->
         </div>
     </div>
+    <script>
+        let currentPage = 1;
+        // 加载数据
+        function fetchData(userId) {
+            fetch(`/admin/posts-comments?userId=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById("post-comment-container");
+                    container.innerHTML = ""; // 清空旧数据
+
+                    // 动态生成帖子及其评论
+                    data.data.forEach(post => {
+                        const postHtml = `
+          <div class="collapse backdrop-blur my-4">
+            <input type="checkbox" />
+            <div class="collapse-title text-xl font-medium">帖子：${post.PostContent}</div>
+            <div class="collapse-content">
+              ${
+                            post.comments.length > 0
+                                ? post.comments
+                                    .map(
+                                        comment => `
+                <div class="bg-base-100 p-2 my-2 rounded flex justify-between items-center">
+                  <span>评论：${comment.CommentContent}</span>
+                  <button class="btn btn-error btn-sm" onclick="deleteComment(${comment.CommentID})">删除评论</button>
+                </div>
+              `
+                                    )
+                                    .join("")
+                                : '<p>暂无评论</p>'
+                        }
+              <button class="btn btn-error mt-3" onclick="deletePost(${post.PostID})">删除帖子</button>
+            </div>
+          </div>
+        `;
+                        container.insertAdjacentHTML("beforeend", postHtml);
+                    });
+                })
+                .catch(error => console.error("数据加载失败：", error));
+        }
+        // 删除帖子
+        function deletePost(postId) {
+            fetch(`/admin/posts/${postId}`, { method: "DELETE" })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("帖子已删除");
+                        fetchData(currentPage); // 重新加载当前页数据
+                    } else {
+                        alert("删除帖子失败");
+                    }
+                })
+                .catch(error => console.error("删除帖子失败：", error));
+        }
+
+        // 删除评论
+        function deleteComment(commentId) {
+            fetch(`/admin/comments/${commentId}`, { method: "DELETE" })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("评论已删除");
+                        fetchData(currentPage); // 重新加载当前页数据
+                    } else {
+                        alert("删除评论失败");
+                    }
+                })
+                .catch(error => console.error("删除评论失败：", error));
+        }
+        fetchData(currentPage);
+    </script>
 </div>
 </body>
 </html>
