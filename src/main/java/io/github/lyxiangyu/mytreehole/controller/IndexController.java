@@ -42,6 +42,12 @@ public class IndexController {
         return "/admin";
     }
 
+    @GetMapping("/mine")
+    public String showMinePage(Model model) {
+        // 这里可以传递更多的数据到 mine 页面
+        return "mine"; // 返回 mine.html 页面
+    }
+
     @GetMapping("/search")
     public String getPostsByContent(@RequestParam String content, Model model) {
         List<Posts> posts = postsService.getPostsByContent(content);

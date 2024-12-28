@@ -37,11 +37,6 @@ public class UsersController {
         return "/register"; // 返回 login.html 页面
     }
     // 显示用户的主页
-    @GetMapping("/mine")
-    public String showMinePage(Model model) {
-        // 这里可以传递更多的数据到 mine 页面
-        return "mine"; // 返回 mine.html 页面
-    }
 
     @PostMapping("/login")
     public String login(@RequestParam String nickName, @RequestParam String passwordHash, HttpSession session, Model model) {

@@ -38,7 +38,7 @@
 <!-- 顶栏 -->
 <nav class="navbar fixed left-0 right-0 backdrop-blur shadow-xl rounded-lg mx-auto max-w-screen-2xl w-full z-50">
   <div class="flex-1">
-    <a class="btn btn-ghost text-xl">TreeHole</a>
+    <a class="btn btn-ghost text-xl" href="/index">TreeHole</a>
   </div>
   <div class="flex-none gap-2">
     <div class="form-control">
@@ -61,7 +61,7 @@
             <a class="btn btn-accent" href="users/register">注册</a>
           </li>
           <li th:if="${users != null}">
-            <a class="btn btn-accent mx-5" href="/users/mine">用户</a>
+            <a class="btn btn-accent mx-5" href="/mine">用户</a>
           </li>
           <li th:if="${users != null}">
             <a class="btn btn-warning" href="/users/logout">退出</a>
