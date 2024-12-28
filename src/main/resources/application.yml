@@ -1,12 +1,15 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/treeholedb?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: yeyuluck
-    password: 123456
+    username: root
+    password: 040918
     driver-class-name: com.mysql.cj.jdbc.Driver
   thymeleaf:
     cache: false  # 开启模板缓存（默认值：true），开发中关闭模板页面缓存
-    encoding: UTF-8  # 模板编码
-    mode: HTML5  # 要运用于模板之上的模板模式
     prefix: classpath:/templates/
-    suffix: .html  # 在构建URL时添加到视图名称后的后缀（默认值：.html）
+    suffix: .html
+    enabled: true
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
