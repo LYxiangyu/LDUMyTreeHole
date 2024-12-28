@@ -16,4 +16,10 @@ public interface AdminsService {
     Boolean validateAdmin(String nickName);
 
     Map<String, Integer> getStats();
+
+    Map<String, Object> getPostsAndComments(int userId);
+
+    void deletePost(int postId);
+
+    void deleteComment(int commentId);
 }

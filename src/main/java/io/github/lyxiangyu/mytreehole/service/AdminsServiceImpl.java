@@ -1,7 +1,10 @@
 package io.github.lyxiangyu.mytreehole.service;
 
 import io.github.lyxiangyu.mytreehole.dao.AdminsDao;
+import io.github.lyxiangyu.mytreehole.dao.CommentsDao;
+import io.github.lyxiangyu.mytreehole.dao.PostsDao;
 import io.github.lyxiangyu.mytreehole.entity.Admins;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -48,7 +51,34 @@ public class AdminsServiceImpl implements AdminsService {
         return stats;
     }
 
-    ;
+    @Override
+    public Map<String, Object> getPostsAndComments(int userId) {
+        List<Map<String, Object>> data = adminsDao.getPostsAndCommentsByUserId(userId);
+        int totalUsers = adminsDao.getTotalUserCount();
 
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", data);
+        result.put("totalUsers", totalUsers);
+        return result;
+    }
+
+    @Autowired
+    private PostsDao postsDao;
+    @Autowired
+    private CommentsDao commentsDao;
+
+    @Override
+    public void deletePost(int postId) {
+        // 删除帖子关联的评论
+        commentsDao.deleteCommentsByPostId(postId);
+        // 删除帖子
+        postsDao.deletePosts(postId);
+    }
+
+    @Override
+    public void deleteComment(int commentId) {
+        // 直接删除单条评论
+        commentsDao.deleteComment(commentId);
+    }
 
 }

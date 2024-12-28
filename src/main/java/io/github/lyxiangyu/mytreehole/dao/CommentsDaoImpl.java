@@ -36,6 +36,12 @@ public class CommentsDaoImpl implements CommentsDao {
     }
 
     @Override
+    public void deleteCommentsByPostId(int postId) {
+        String sql = "DELETE FROM comments WHERE PostID = ?";
+        jdbcTemplate.update(sql, postId);
+    }
+
+    @Override
     public List<Comments> getAllComments() {
         String sql = "SELECT * FROM Comments";
         return jdbcTemplate.query(sql, commentsRowMapper);

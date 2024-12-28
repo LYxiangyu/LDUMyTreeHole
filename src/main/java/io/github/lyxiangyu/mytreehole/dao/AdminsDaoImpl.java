@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AdminsDaoImpl implements AdminsDao {
@@ -66,6 +67,39 @@ public class AdminsDaoImpl implements AdminsDao {
     @Override
     public int getCommentCount() {
         String sql = "SELECT COUNT(*) FROM comments";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+    @Override
+    public List<Map<String, Object>> getPostsAndCommentsByUserId(int userId) {
+        String postSql = """
+        SELECT p.PostID, p.Content AS PostContent, p.PostDate
+        FROM posts p
+        WHERE p.UserID = ?
+        ORDER BY p.PostDate DESC
+    """;
+
+        String commentSql = """
+        SELECT c.CommentID, c.PostID, c.Content AS CommentContent, c.CommentDate
+        FROM comments c
+        WHERE c.PostID = ?
+        ORDER BY c.CommentDate DESC
+    """;
+
+        List<Map<String, Object>> posts = jdbcTemplate.queryForList(postSql, userId);
+
+        for (Map<String, Object> post : posts) {
+            int postId = (int) post.get("PostID");
+            List<Map<String, Object>> comments = jdbcTemplate.queryForList(commentSql, postId);
+            post.put("comments", comments); // 将评论嵌套到对应帖子
+        }
+
+        return posts;
+    }
+
+
+    @Override
+    public int getTotalUserCount() {
+        String sql = "SELECT COUNT(*) FROM users";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }
